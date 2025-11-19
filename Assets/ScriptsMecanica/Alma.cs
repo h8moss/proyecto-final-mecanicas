@@ -10,6 +10,6 @@ public class Alma : MonoBehaviour
     public void Absorber()
     {
         absorbieron?.Invoke(this);
-        Destroy(gameObject);
+        //Destroy(gameObject);
     }
 }
