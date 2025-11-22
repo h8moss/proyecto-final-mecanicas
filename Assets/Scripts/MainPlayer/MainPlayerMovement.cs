@@ -10,8 +10,8 @@ public class MainPlayerMovement : MonoBehaviour
     Vector3 left = new Vector3(-1, 0, 1).normalized;
     Vector3 right = new Vector3(1, 0, -1).normalized;
 
-    public float speed = 5f;
-    public float rotationSpeed = 10f;
+    public float speed = 4f;
+    public float rotationSpeed = 7f;
     public float currentSpeed;
     void Start()
     {
