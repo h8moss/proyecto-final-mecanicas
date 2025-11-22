@@ -13,6 +13,15 @@ public class MainPlayerMovement : MonoBehaviour
     public float speed = 4f;
     public float rotationSpeed = 7f;
     public float currentSpeed;
+
+    public float dashSpeed = 10f;
+    public float dashDuration = 0.25f;
+    public float dashCooldown = 1f;
+
+    private bool isDashing = false;
+    private float dashTimer = 0f;
+    private float dashCooldownTimer = 0f;
+    private Vector3 dashDirection; 
     void Start()
     {
         controller = GetComponent<CharacterController>();
@@ -35,6 +44,37 @@ public class MainPlayerMovement : MonoBehaviour
     {
         //controller.Move(Vector3.down * 0.1f);
         controller.Move(Vector3.down * 5f * Time.deltaTime);
+
+        if (dashCooldownTimer > 0)
+            dashCooldownTimer -= Time.deltaTime;
+
+        if (!isDashing && dashCooldownTimer <= 0f && Input.GetMouseButtonDown(1))
+        {
+            if (animator != null) 
+                animator.SetTrigger("dash"); 
+
+            isDashing = true;
+            dashTimer = dashDuration;
+            dashCooldownTimer = dashCooldown;
+
+            dashDirection = -transform.forward;
+            dashDirection.y = 0;
+
+            return;  
+        }
+
+        if (isDashing)
+        {
+            dashTimer -= Time.deltaTime;
+
+            controller.Move(dashDirection.normalized * dashSpeed * Time.deltaTime);
+
+            if (dashTimer <= 0f)
+                isDashing = false;
+
+            return; 
+        }
+
         float h = Input.GetAxisRaw("Horizontal");
         float v = Input.GetAxisRaw("Vertical");
 

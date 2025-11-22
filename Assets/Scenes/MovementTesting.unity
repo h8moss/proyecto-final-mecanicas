@@ -701,6 +701,9 @@ MonoBehaviour:
   speed: 4
   rotationSpeed: 7
   currentSpeed: 0
+  dashSpeed: 10
+  dashDuration: 0.25
+  dashCooldown: 1
 --- !u!114 &1601289732
 MonoBehaviour:
   m_ObjectHideFlags: 0
