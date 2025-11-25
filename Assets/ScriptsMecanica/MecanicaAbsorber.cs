@@ -5,9 +5,10 @@ public class MecanicaAbsorber : MonoBehaviour
     public string[] slots = new string[3];
     public int slotDispo = 4;
     public bool almaExists = false;
+    public HealthManager vidaJugador;
 
     private Alma alma;
-
+    
     public void Update()
     {
         if(Input.GetButtonDown("Fire1"))
@@ -15,18 +16,20 @@ public class MecanicaAbsorber : MonoBehaviour
             for(int i = 0; i < 3; i++)
             {
                 Debug.Log(slots[i]);
-            }
-            
+            }  
         }
         if (almaExists)
         {
             if (Input.GetKeyDown("e"))
             {
                 HabilidadLlenar(alma.tipoDeAlma);
+                alma.gameObject.SetActive(false);
             }
             else if (Input.GetKeyDown("h"))
             {
+                vidaJugador.Curar(Random.Range(15, 26));
                 Debug.Log("curando");
+                alma.gameObject.SetActive(false);
             }
         }
     }
@@ -36,13 +39,7 @@ public class MecanicaAbsorber : MonoBehaviour
         {
             alma = other.GetComponent<Alma>();
             almaExists = true;
-            alma.absorbieron += Absorber;
         }
-    }
-
-    private void Absorber(Alma alma)
-    {
-        almaExists = true;
     }
 
     private void HabilidadLlenar(int tipo)
