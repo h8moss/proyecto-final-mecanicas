@@ -44,15 +44,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 254466305614923366}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e6b879747a1d34b198126411f940aed9, type: 3}
+  m_Script: {fileID: 11500000, guid: 9b44adb96aa760fca9ba7a1b702aad32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 20
+  speed: 10
   collisionLayers:
   - serializedVersion: 2
     m_Bits: 256
-  hurtPlayer: 0
-  lifeTime: 20
+  lifeTime: 8
+  shrinkWithLife: 0
+  trackPlayer: 0
 --- !u!114 &2033087584584248236
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -92,7 +93,7 @@ Transform:
   m_GameObject: {fileID: 1381621401002807991}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7016607, y: -0, z: -0, w: 0.71251136}
-  m_LocalPosition: {x: 0, y: 3.19, z: 0.01}
+  m_LocalPosition: {x: 0, y: 0, z: 0.01}
   m_LocalScale: {x: 0.55806, y: 0.55806, z: 0.55806}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4926,7 +4927,7 @@ Transform:
   m_GameObject: {fileID: 2606983228756157465}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 2.92, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
