@@ -1,3 +1,4 @@
+using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
@@ -26,6 +27,7 @@ public class FireEnemyMovement : MonoBehaviour
     private NavMeshAgent agent;
     private LineOfSightCalculator los;
     private EnemyHealthControler health;
+    private bool initialized;
 
     void Start()
     {
@@ -43,13 +45,22 @@ public class FireEnemyMovement : MonoBehaviour
     }
 
     void Reset() {
+        initialized = false;
         currentPreferredDistance = preferredDistance + Random.Range(-distanceRandomness, distanceRandomness);
+        StartCoroutine(DelayedStart());
     }
+
+    IEnumerator DelayedStart()
+    {
+        yield return null; // Wait one frame
+        initialized = true;
+    }
+
 
 
     void Update()
     {
-        if (health.IsDead) return;
+        if (health.IsDead || !initialized) return;
         // Look at player
         Vector3 lookDirection = player.position - transform.position;
         lookDirection.y = 0;
