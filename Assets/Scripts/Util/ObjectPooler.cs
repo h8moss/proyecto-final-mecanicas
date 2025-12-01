@@ -26,7 +26,7 @@ public class ObjectPooler : MonoBehaviour
             if (!instances[i].activeInHierarchy)
             {
                 instances[i].SetActive(true);
-                if (TryGetComponent(out PooledObjectHelper poh)) {
+                if (instances[i].TryGetComponent(out PooledObjectHelper poh)) {
                     poh.Reset();
                 }
 
