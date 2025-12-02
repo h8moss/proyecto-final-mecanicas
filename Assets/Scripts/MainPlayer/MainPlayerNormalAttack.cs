@@ -72,7 +72,6 @@ public class MainPlayerNormalAttack : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        Debug.Log(other.name);
         if (other.TryGetComponent<EnemyHealthControler>(out var eh))
         {
             var dmg = 0;
