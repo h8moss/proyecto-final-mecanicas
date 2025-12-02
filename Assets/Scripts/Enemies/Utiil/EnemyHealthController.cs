@@ -4,7 +4,7 @@ using UnityEngine;
 public class EnemyHealthControler : MonoBehaviour
 {
     [SerializeField] private int maxHealth;
-    [SerializeField] private int health;
+    private int health;
 
     public int MaxHealth { get => maxHealth; }
     public int Health { get => health; }
@@ -30,6 +30,7 @@ public class EnemyHealthControler : MonoBehaviour
 
     public void DealDamage(int damage)
     {
+        if (IsDead) return;
         health -= damage;
         onHurt?.Invoke();
         if (health <= 0)
