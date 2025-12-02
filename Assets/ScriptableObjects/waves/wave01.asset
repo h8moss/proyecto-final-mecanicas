@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb9b5ae99288011888a4e329f987148d, type: 3}
   m_Name: wave01
   m_EditorClassIdentifier: 
-  breakTime: 3
+  breakTime: 5
   randomTimeBetweenSpawns: {x: 1, y: 6}
-  fireEnemyCount: 1
-  iceEnemyCount: 1
+  fireEnemyCount: 3
+  iceEnemyCount: 2
   waterEnemyCount: 0
   earthEnemyCount: 0
   lightningEnemyCount: 0
