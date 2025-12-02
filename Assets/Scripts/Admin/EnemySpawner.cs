@@ -17,6 +17,8 @@ public class EnemySpawner : MonoBehaviour
 
     [SerializeField] private Transform[] spawnPositions;
 
+    [SerializeField] private Vector3 spawnOffset;
+
     private GameObject[] fireEnemies;
     private GameObject[] iceEnemies;
     private GameObject[] waterEnemies;
@@ -68,7 +70,6 @@ public class EnemySpawner : MonoBehaviour
         {
             defaultPos = hit.position;
         }
-        Debug.Log(defaultPos);
         for (int i=0; i<fireEnemies.Length; i++)
         {
             fireEnemies[i] = Instantiate(fireEnemy, defaultPos, Quaternion.identity);
@@ -118,7 +119,7 @@ public class EnemySpawner : MonoBehaviour
             int earthEnemyCount = 0;
             int lightningEnemyCount = 0;
 
-            while (currentEnemies < wave.TotalEnemies)
+            while (fireEnemyCount+waterEnemyCount+iceEnemyCount+earthEnemyCount+lightningEnemyCount < wave.TotalEnemies)
             {
                 if (fireEnemyCount < wave.fireEnemyCount && Random.value > 0.5)
                 {
@@ -155,10 +156,13 @@ public class EnemySpawner : MonoBehaviour
                     lightningEnemyCount++;
                     currentEnemies++;
                 }
+                yield return waitFor1Second;
             }
 
             while (currentEnemies > 0) // while wave hasnt ended
             {
+                Debug.Log("Waiting----");
+                Debug.Log(currentEnemies);
                 yield return waitFor1Second;
             }
 
@@ -176,6 +180,7 @@ public class EnemySpawner : MonoBehaviour
         if (NavMesh.SamplePosition(spawnLocation, out NavMeshHit hit, 10, NavMesh.AllAreas))
         {
             spawnLocation = hit.position;
+            spawnLocation += spawnOffset;
         }
         foreach (var enemy in enemies) {
             if (!enemy.activeInHierarchy) 
