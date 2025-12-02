@@ -105,6 +105,7 @@ GameObject:
   - component: {fileID: 8787985307543982157}
   - component: {fileID: 4277716137154015631}
   - component: {fileID: 3483170816013317619}
+  - component: {fileID: 3307108347249558099}
   m_Layer: 7
   m_Name: WaterEnemy
   m_TagString: Untagged
@@ -292,6 +293,21 @@ CapsuleCollider:
   m_Height: 1.7254902
   m_Direction: 1
   m_Center: {x: 0, y: -0.13966745, z: 0}
+--- !u!114 &3307108347249558099
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6378267362021587461}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adee159d1c223a763a90317e8bc8c862, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  instantDisable:
+  - {fileID: 9072165857048969712}
+  disabledTimeout: 5
 --- !u!1 &9072165857048969712
 GameObject:
   m_ObjectHideFlags: 0

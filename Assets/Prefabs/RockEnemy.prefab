@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 6535066248206537709}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.739}
+  m_LocalPosition: {x: 0, y: 0.671, z: 0.739}
   m_LocalScale: {x: 0.16915, y: 0.16915, z: 0.16915}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -99,12 +99,13 @@ GameObject:
   - component: {fileID: 6745634488670400599}
   - component: {fileID: 6263782755504907119}
   - component: {fileID: 1966467648570396894}
-  - component: {fileID: 7705416741139855514}
   - component: {fileID: 4368817948078776172}
   - component: {fileID: 5221727051267081578}
   - component: {fileID: 6989709964718009885}
   - component: {fileID: 8677184922975383044}
   - component: {fileID: 4040790920367614625}
+  - component: {fileID: 8560988671695203226}
+  - component: {fileID: 3264745562218739404}
   m_Layer: 7
   m_Name: RockEnemy
   m_TagString: Untagged
@@ -201,22 +202,6 @@ MonoBehaviour:
   pooled: {fileID: 2840462606442413968, guid: 93af75eb744765610b231cbf4f0fd1b9, type: 3}
   maxObjects: 5
   objectParent: {fileID: 0}
---- !u!114 &7705416741139855514
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6751118103224633886}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ecc1835209a43ba1890b0f325b880122, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fireCooldown: 6
-  timeBetweenFires: 3
-  fireCount: 2
-  bulletSpawnPosition: {fileID: 5178282063720300648}
 --- !u!114 &4368817948078776172
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -291,6 +276,34 @@ CapsuleCollider:
   m_Height: 1.7254902
   m_Direction: 1
   m_Center: {x: 0, y: -0.13966745, z: 0}
+--- !u!114 &8560988671695203226
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6751118103224633886}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adee159d1c223a763a90317e8bc8c862, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  instantDisable: []
+  disabledTimeout: 4
+--- !u!114 &3264745562218739404
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6751118103224633886}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36bca7860f1258219adb06eeb64d0106, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fireCooldown: 6
+  bulletSpawnPosition: {fileID: 5178282063720300648}
 --- !u!1001 &4466605290081667780
 PrefabInstance:
   m_ObjectHideFlags: 0

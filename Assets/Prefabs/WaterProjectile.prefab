@@ -5025,7 +5025,8 @@ MonoBehaviour:
   damage: 7
   collisionLayers:
     serializedVersion: 2
-    m_Bits: 448
+    m_Bits: 320
+  deactivateSelf: 1
 --- !u!54 &5076326840870658120
 Rigidbody:
   m_ObjectHideFlags: 0
