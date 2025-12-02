@@ -3,6 +3,8 @@ using System.Data.Common;
 using UnityEngine;
 using UnityEngine.Pool;
 
+[RequireComponent(typeof(EnemyHealthControler))]
+[RequireComponent(typeof(PooledObjectHelper))]
 [RequireComponent(typeof(ObjectPooler))]
 public class FireEnemyAttack : BaseEnemyAttack
 {
@@ -17,6 +19,7 @@ public class FireEnemyAttack : BaseEnemyAttack
     {
         health = GetComponent<EnemyHealthControler>();
         objectPooler = GetComponent<ObjectPooler>();
+        GetComponent<PooledObjectHelper>().onReset += Reset;
         Reset();
     }
 

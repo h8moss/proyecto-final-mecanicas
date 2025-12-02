@@ -28,8 +28,13 @@ public class LighningAttackController : MonoBehaviour
     {
         if (state == LighningAttackState.Tracking)
         {
-            Vector3 target = new(PlayerLocator.Player.position.x, targetHeight, PlayerLocator.Player.position.z);
-            transform.position = Vector3.Lerp(transform.position, target, smoothSpeed * Time.deltaTime);
+            Vector3 target = new(PlayerLocator.Player.position.x, PlayerLocator.Player.position.y + targetHeight, PlayerLocator.Player.position.z);
+            var initialPos = new Vector3(
+                transform.position.x,
+                PlayerLocator.Player.position.y + targetHeight,
+                transform.position.z
+            );
+            transform.position = Vector3.Lerp(initialPos, target, smoothSpeed * Time.deltaTime);
 
             if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, 50, ground))
             {
