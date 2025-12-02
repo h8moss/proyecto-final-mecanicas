@@ -46,24 +46,14 @@ public class EnemyBulletController : MonoBehaviour
         }
         if (trackPlayer)
         {
-            Vector3 lookDirection = PlayerLocator.Player.position - transform.position;
-            lookDirection.y = 0;
+            Vector3 lookDirection = PlayerLocator.Player.position - transform.position + Vector3.up;
+            // lookDirection.y = 0;
             if (lookDirection != Vector3.zero)
             {
                 transform.rotation = Quaternion.LookRotation(lookDirection);
             }
         }
         transform.position += speed * Time.deltaTime * transform.forward;
-    }
-
-    void OnTriggerEnter(Collider other)
-    {
-        // TODO: Damage player
-
-        if (collisionLayers.Contains(other.gameObject.layer)) {
-            StopAllCoroutines();
-            gameObject.SetActive(false);
-        }
     }
 
     IEnumerator LifetimeCounter()

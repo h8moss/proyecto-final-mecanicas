@@ -67,8 +67,8 @@ public class FireEnemyAttack : BaseEnemyAttack
                 Vector3 predictedPosition = currentPlayerPos + (playerVelocity * travelTime);
 
                 // Aim at predicted position
-                Vector3 lookDirection = predictedPosition - bulletSpawnPosition.position;
-                lookDirection.y = 0;
+                Vector3 lookDirection = predictedPosition - bulletSpawnPosition.position + Vector3.up;
+                // lookDirection.y = 0;
                 Quaternion rotation = Quaternion.LookRotation(lookDirection, Vector3.up);
 
                 bullet.transform.SetPositionAndRotation(bulletSpawnPosition.position, rotation);
