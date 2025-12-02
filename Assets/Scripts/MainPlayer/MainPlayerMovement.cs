@@ -1,5 +1,6 @@
 using UnityEngine;
 
+[RequireComponent(typeof(CharacterController))]
 public class MainPlayerMovement : MonoBehaviour
 {
     private CharacterController controller;
@@ -26,18 +27,16 @@ public class MainPlayerMovement : MonoBehaviour
     {
         controller = GetComponent<CharacterController>();
 
-        if (controller == null)
-            controller = gameObject.AddComponent<CharacterController>();
-
         animator = GetComponentInChildren<Animator>();
 
         if (animator == null)
-            Debug.LogError("? No se encontró un Animator en los hijos del objeto PLAYER");
+            Debug.LogError("? No se encontrï¿½ un Animator en los hijos del objeto PLAYER");
 
-        controller.height = 2f;
-        controller.radius = 0.4f;
-        controller.center = new Vector3(0, 1f, 0);
-        controller.skinWidth = 0.001f;
+        // What if we want to adjust these??
+        // controller.height = 2f;
+        // controller.radius = 0.4f;
+        // controller.center = new Vector3(0, 1f, 0);
+        // controller.skinWidth = 0.001f;
     }
     
     void Update()
