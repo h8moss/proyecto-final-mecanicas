@@ -15,6 +15,8 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private EnemyWave[] waves;
     [SerializeField] private bool isInfinite;
 
+    [SerializeField] private Transform[] spawnPositions;
+
     private GameObject[] fireEnemies;
     private GameObject[] iceEnemies;
     private GameObject[] waterEnemies;
@@ -61,33 +63,39 @@ public class EnemySpawner : MonoBehaviour
 
     private void InstantiateEnemies()
     {
+        Vector3 defaultPos = spawnPositions[0].position;
+        if (NavMesh.SamplePosition(defaultPos, out NavMeshHit hit, 10, NavMesh.AllAreas))
+        {
+            defaultPos = hit.position;
+        }
+        Debug.Log(defaultPos);
         for (int i=0; i<fireEnemies.Length; i++)
         {
-            fireEnemies[i] = Instantiate(fireEnemy);
+            fireEnemies[i] = Instantiate(fireEnemy, defaultPos, Quaternion.identity);
             fireEnemies[i].SetActive(false);
             fireEnemies[i].GetComponent<EnemyHealthControler>().onDeath += OnEnemyDied;
         }
         for (int i=0; i<iceEnemies.Length; i++)
         {
-            iceEnemies[i] = Instantiate(iceEnemy);
+            iceEnemies[i] = Instantiate(iceEnemy, defaultPos, Quaternion.identity);
             iceEnemies[i].SetActive(false);
             iceEnemies[i].GetComponent<EnemyHealthControler>().onDeath += OnEnemyDied;
         }
         for (int i=0; i<earthEnemies.Length; i++)
         {
-            earthEnemies[i] = Instantiate(earthEnemy);
+            earthEnemies[i] = Instantiate(earthEnemy, defaultPos, Quaternion.identity);
             earthEnemies[i].SetActive(false);
             earthEnemies[i].GetComponent<EnemyHealthControler>().onDeath += OnEnemyDied;
         }
         for (int i=0; i<waterEnemies.Length; i++)
         {
-            waterEnemies[i] = Instantiate(waterEnemy);
+            waterEnemies[i] = Instantiate(waterEnemy, defaultPos, Quaternion.identity);
             waterEnemies[i].SetActive(false);
             waterEnemies[i].GetComponent<EnemyHealthControler>().onDeath += OnEnemyDied;
         }
         for (int i=0; i<lightningEnemies.Length; i++)
         {
-            lightningEnemies[i] = Instantiate(lightningEnemy);
+            lightningEnemies[i] = Instantiate(lightningEnemy, defaultPos, Quaternion.identity);
             lightningEnemies[i].SetActive(false);
             lightningEnemies[i].GetComponent<EnemyHealthControler>().onDeath += OnEnemyDied;
         }
@@ -164,8 +172,7 @@ public class EnemySpawner : MonoBehaviour
 
     void SpawnEnemy(GameObject[] enemies)
     {
-        Transform[] children = transform.GetComponentsInChildren<Transform>();
-        Vector3 spawnLocation = children[Random.Range(0, children.Length)].position;
+        Vector3 spawnLocation = spawnPositions[Random.Range(0, spawnPositions.Length)].position;
         if (NavMesh.SamplePosition(spawnLocation, out NavMeshHit hit, 10, NavMesh.AllAreas))
         {
             spawnLocation = hit.position;
