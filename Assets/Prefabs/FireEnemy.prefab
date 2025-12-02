@@ -870,7 +870,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 10
+      scalar: 3
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -4937,6 +4937,7 @@ GameObject:
   - component: {fileID: 7889141353470929550}
   - component: {fileID: 7159862090117781475}
   - component: {fileID: 6443480278959925333}
+  - component: {fileID: 1884557701971461872}
   m_Layer: 7
   m_Name: FireEnemy
   m_TagString: Untagged
@@ -5075,7 +5076,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 10
-  health: 0
 --- !u!114 &7159862090117781475
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5102,6 +5102,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 2397983843704344883}
+--- !u!136 &1884557701971461872
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5640241489382017174}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 1.7254902
+  m_Direction: 1
+  m_Center: {x: 0, y: -0.13966745, z: 0}
 --- !u!1 &7579910646728990632
 GameObject:
   m_ObjectHideFlags: 0

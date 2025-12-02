@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 3851476782008344587}
   - component: {fileID: 8021034363112117051}
   - component: {fileID: 2033087584584248236}
+  - component: {fileID: 2855709294744553919}
+  - component: {fileID: 9176778758404925632}
   m_Layer: 7
   m_Name: FireBullet
   m_TagString: Untagged
@@ -66,6 +68,49 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d280bc5e0dd0193b98da4728e263923, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2855709294744553919
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 254466305614923366}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18c1f08bc74bdc4fd891f8fe9be93c92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 4
+  collisionLayers:
+    serializedVersion: 2
+    m_Bits: 448
+--- !u!54 &9176778758404925632
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 254466305614923366}
+  serializedVersion: 5
+  m_Mass: 0.01
+  m_LinearDamping: 0
+  m_AngularDamping: 0
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &1381621401002807991
 GameObject:
   m_ObjectHideFlags: 0
@@ -936,7 +981,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 30
+      scalar: 4
       minScalar: 10
       maxCurve:
         serializedVersion: 2

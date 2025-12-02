@@ -4952,6 +4952,8 @@ GameObject:
   - component: {fileID: 175229850927498784}
   - component: {fileID: 6377757769307434945}
   - component: {fileID: 703371627785442010}
+  - component: {fileID: 6087434860680792327}
+  - component: {fileID: 5076326840870658120}
   m_Layer: 7
   m_Name: WaterProjectile
   m_TagString: Untagged
@@ -5008,6 +5010,49 @@ MonoBehaviour:
   lifeTime: 10
   shrinkWithLife: 1
   trackPlayer: 1
+--- !u!114 &6087434860680792327
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6728374964137776992}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18c1f08bc74bdc4fd891f8fe9be93c92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 7
+  collisionLayers:
+    serializedVersion: 2
+    m_Bits: 448
+--- !u!54 &5076326840870658120
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6728374964137776992}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &8799864649669340463
 GameObject:
   m_ObjectHideFlags: 0

@@ -104,6 +104,7 @@ GameObject:
   - component: {fileID: 6833943183901273961}
   - component: {fileID: 7974961258296070263}
   - component: {fileID: 311936762457261905}
+  - component: {fileID: 3910895429189217704}
   m_Layer: 7
   m_Name: IceEnemy
   m_TagString: Untagged
@@ -242,7 +243,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 13
-  health: 0
 --- !u!114 &7974961258296070263
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -269,6 +269,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 2367900184745841710}
+--- !u!136 &3910895429189217704
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4401975641348975431}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 1.7254902
+  m_Direction: 1
+  m_Center: {x: 0, y: -0.13966745, z: 0}
 --- !u!1 &6521511062065064417
 GameObject:
   m_ObjectHideFlags: 0

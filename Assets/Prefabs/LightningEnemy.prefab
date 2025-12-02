@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 1268394801925278272}
   - component: {fileID: 5600848832946789893}
   - component: {fileID: 602569476263804350}
+  - component: {fileID: 9005675535598919443}
   m_Layer: 7
   m_Name: LightningEnemy
   m_TagString: Untagged
@@ -156,7 +157,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 17
-  health: 0
 --- !u!114 &5600848832946789893
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -183,6 +183,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 6280609585161836211}
+--- !u!136 &9005675535598919443
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 484812911356405823}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 1.7254902
+  m_Direction: 1
+  m_Center: {x: 0, y: -0.13966745, z: 0}
 --- !u!1 &2100633768787706527
 GameObject:
   m_ObjectHideFlags: 0
