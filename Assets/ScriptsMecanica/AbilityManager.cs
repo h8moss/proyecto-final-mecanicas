@@ -9,6 +9,7 @@ public class AbilityManager : MonoBehaviour
     [SerializeField] private AbilityBase[] abilities;
 
     private Camera cam;
+    private Transform player;
 
     private bool isPreviewing = false;
     private int previewIndex = -1;
@@ -17,6 +18,8 @@ public class AbilityManager : MonoBehaviour
     {
         absorbido = GetComponentInParent<MecanicaAbsorber>();
         cam = Camera.main;
+
+        player = transform;
     }
 
     void Update()
@@ -75,7 +78,7 @@ public class AbilityManager : MonoBehaviour
 
         if (Physics.Raycast(ray, out RaycastHit hit, 200f))
         {
-            HoverPoint = hit.point;
+            HoverPoint = new Vector3(hit.point.x, player.position.y, hit.point.z);
         }
     }
 

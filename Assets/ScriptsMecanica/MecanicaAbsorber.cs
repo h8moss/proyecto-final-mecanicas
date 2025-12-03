@@ -10,15 +10,16 @@ public class MecanicaAbsorber : MonoBehaviour
 
     void Update()
     {
+        int slot = SlotDisponible();
         if (almaExists)
         {
-            if (Input.GetKeyDown(KeyCode.F))
+            if (Input.GetKeyDown(KeyCode.F) && slot != -1)
             {
                 AbsorberHabilidad(alma);
                 alma.gameObject.SetActive(false);
                 almaExists = false;
             }
-            else if (Input.GetKeyDown(KeyCode.C))
+            else if (Input.GetKeyDown(KeyCode.C) && vidaJugador.Health != vidaJugador.MaxHealth)
             {
                 vidaJugador.Heal(Random.Range(15, 26));
                 alma.gameObject.SetActive(false);

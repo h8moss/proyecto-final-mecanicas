@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 3
   tags:
   - Alma
+  - Enemy
   layers:
   - Default
   - TransparentFX
@@ -16,7 +17,7 @@ TagManager:
   - actors
   - world
   - world-ignored
-  - 
+  - Earth
   - 
   - 
   - 

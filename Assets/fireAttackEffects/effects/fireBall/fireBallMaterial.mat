@@ -62,14 +62,14 @@ Material:
     - _QueueControl: 0
     - _QueueOffset: 0
     - _air_scroll_speed: 1
-    - _fresnel_power: 0.45
+    - _fresnel_power: 5.29
     - _offest_speed: 0.5
     m_Colors:
-    - _Color_2: {r: 0.5339979, g: 0.67620564, b: 0.9056604, a: 0}
+    - _Color_2: {r: 0.19811314, g: 0.060767062, b: 0.023362402, a: 1}
     - _air_color: {r: 0.7132075, g: 0.7132075, b: 0.7132075, a: 1}
     - _air_tiling: {r: 1, g: 1, b: 0, a: 0}
-    - _color_1: {r: 0.050729793, g: 0.22829881, b: 0.7169812, a: 0}
-    - _moving_texture_color: {r: 0.6468049, g: 0.7722497, b: 0.8962264, a: 0}
-    - _moving_texture_tiling: {r: 1, g: 1, b: 0, a: 0}
+    - _color_1: {r: 0.021226421, g: 0.005356609, b: 0.0021026172, a: 0}
+    - _moving_texture_color: {r: 0.16981131, g: 0.045753337, b: 0.024830898, a: 0}
+    - _moving_texture_tiling: {r: 0.5, g: 0.5, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

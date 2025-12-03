@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 3575743874830636488}
   - component: {fileID: 6486805075717772920}
   - component: {fileID: 4956712803059311628}
-  - component: {fileID: 2565986502377196861}
+  - component: {fileID: -4390071882816275826}
   m_Layer: 0
-  m_Name: IceBall
+  m_Name: EarthBall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -77,13 +77,13 @@ SphereCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.51514024
+  m_Radius: 0.74
   m_Center: {x: -6.888866e-18, y: 0, z: 0.015140235}
---- !u!114 &2565986502377196861
+--- !u!114 &-4390071882816275826
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -92,16 +92,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 3058921619387484915}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c22b4260a035fc74aa887a10fc893ad7, type: 3}
+  m_Script: {fileID: 11500000, guid: ed876a14b6582e9439f03e3c6758ca05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  vfxPrefab: {fileID: 772568044698796346, guid: cf3629393289b174fabe717ad672d281, type: 3}
-  objectToDisable: {fileID: 9124523922630722229}
-  rb: {fileID: 0}
-  speed: 2
-  maxSpeed: 3
-  acceleration: 2
-  rotationSpeed: 360
+  damage: 35
+  impactRadius: 3
+  knockbackForce: 5
+  impactEffectPrefab: {fileID: 5610010966355794069, guid: fa1a4040fd8946449b86a944ba1fe98c, type: 3}
 --- !u!1 &9124523922630722229
 GameObject:
   m_ObjectHideFlags: 0
@@ -113,7 +110,6 @@ GameObject:
   - component: {fileID: 3608032824465205222}
   - component: {fileID: 2340490080805783811}
   - component: {fileID: 6487117818289868408}
-  - component: {fileID: 8070171585354700705}
   m_Layer: 0
   m_Name: fireBall
   m_TagString: Untagged
@@ -191,27 +187,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!135 &8070171585354700705
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9124523922630722229}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &2974739346384119101
 PrefabInstance:
   m_ObjectHideFlags: 0

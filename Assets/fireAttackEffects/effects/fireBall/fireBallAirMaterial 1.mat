@@ -65,7 +65,7 @@ Material:
     - _color_strength: 1
     - _scrolling_speed: 2
     m_Colors:
-    - _scrolling_texture_color: {r: 0.16220352, g: 0.6918107, b: 1.2392347, a: 0}
+    - _scrolling_texture_color: {r: 0.117061935, g: 0.022880675, b: 0.013804471, a: 0}
     - _texture_tiling: {r: 0, g: 3.65, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
