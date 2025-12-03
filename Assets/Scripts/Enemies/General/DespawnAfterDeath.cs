@@ -1,4 +1,5 @@
 using System.Collections;
+using Mono.Cecil.Cil;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
@@ -12,6 +13,7 @@ public class DespawnAfterDeath : MonoBehaviour
     [SerializeField] GameObject[] instantDisable;
     [SerializeField] float disabledTimeout;
     [SerializeField] Collider colliderToDisable;
+    [SerializeField] GameObject soul;
 
     EnemyHealthControler health;
     PooledObjectHelper helper;
@@ -45,6 +47,7 @@ public class DespawnAfterDeath : MonoBehaviour
         movement.enabled = true;
         colliderToDisable.enabled = true;
         agent.enabled = true;
+        soul.SetActive(false);
     }
 
     IEnumerator Disable()
@@ -56,9 +59,11 @@ public class DespawnAfterDeath : MonoBehaviour
         movement.enabled = false;
         agent.enabled = false;
         colliderToDisable.enabled = false;
+        soul.SetActive(true);
 
         yield return new WaitForSeconds(disabledTimeout);
 
         gameObject.SetActive(false);
+
     }
 }
