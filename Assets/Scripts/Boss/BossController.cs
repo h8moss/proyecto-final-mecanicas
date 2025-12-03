@@ -347,7 +347,7 @@ public class BossController : MonoBehaviour, IDamageable
         
         if (anim != null) anim.SetTrigger("Roar");
 
-        /
+        
         if (bossMesh != null) bossMesh.material.color = phase2Color;
         else Debug.LogWarning("No hay Boss Mesh asignado, no puedo cambiar color.");
 
