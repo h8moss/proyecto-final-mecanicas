@@ -12,29 +12,29 @@ public class BossController : MonoBehaviour
     public float activationDistance = 15f;
     public float standUpDuration = 2.0f;
 
-    [Header("TIEMPOS EXACTOS (TIMING)")]
-    // DASH
+    [Header("TIMING")]
+  
     public float dashTelegraphTime = 2.0f;
     public float dashDistance = 25f;
 
-    // JUMP (SALTO)
+  
     public float jumpTelegraphTime = 4.0f;
     public float jumpTimeUntilImpact = 1.817f;
 
-    // GROUND ZONES
+    
     public float castAnimCastPart = 1.3f;
     public float groundZoneExplosionDelay = 1.0f;
 
-    // SHOOT
+   
     public float shootAnimDuration = 2.0f;
 
     [Header("CONFIGURACIÓN DE TAMAÑOS")]
     public float jumpAttackSize = 22f;
     public float groundZoneSize = 6f;
 
-    [Header("AJUSTE DE HITBOX (NUEVO)")]
+    [Header("AJUSTE DE HITBOX")]
     [Range(0.5f, 1f)]
-    public float hitBoxReduction = 0.85f; // El daño será el 85% del tamaño visual para ser justo
+    public float hitBoxReduction = 0.85f; 
 
     [Header("Ataques & Prefabs")]
     public GameObject projectilePrefab;
@@ -42,10 +42,9 @@ public class BossController : MonoBehaviour
     public GameObject dashTelegraphPrefab;
     public Transform firePoint;
 
-    [Header("Fases (Lógica)")]
+    [Header("Fases ")]
     public float phase2SpeedMultiplier = 1.5f;
 
-    // Estados Públicos
     public bool IsPhase2 { get; private set; } = false;
     public bool IsDead { get; private set; } = false;
 
@@ -75,19 +74,19 @@ public class BossController : MonoBehaviour
     {
         if (IsDead) return;
 
-        // 1. SINCRONIZAR VELOCIDAD DE ANIMACIÓN
+       
         if (anim != null)
         {
             anim.speed = IsPhase2 ? phase2SpeedMultiplier : 1f;
         }
 
-        // 2. CORRECCIÓN ALTURA
+      
         if (Mathf.Abs(transform.position.y - initialY) > 0.1f)
         {
             transform.position = new Vector3(transform.position.x, initialY, transform.position.z);
         }
 
-        // 3. DORMIDO
+       
         if (isSleeping)
         {
             if (player != null)
@@ -99,7 +98,7 @@ public class BossController : MonoBehaviour
             return;
         }
 
-        // 4. ROTACIÓN
+       
         if (!isBusy && player != null)
         {
             Vector3 direction = (player.position - transform.position).normalized;
@@ -121,7 +120,7 @@ public class BossController : MonoBehaviour
         }
     }
 
-    // --- COMUNICACIÓN ---
+  
     public void NotifyDamageReceived() { if (isSleeping) StartCoroutine(WakeUpSequence()); }
     public void StartPhase2() { StartCoroutine(EnterPhase2Routine()); }
     public void DieSequence()
@@ -145,7 +144,7 @@ public class BossController : MonoBehaviour
         isBusy = false;
     }
 
-    // --- LÓGICA COMBATE ---
+  
     IEnumerator WakeUpSequence()
     {
         isSleeping = false;
@@ -186,7 +185,7 @@ public class BossController : MonoBehaviour
         }
     }
 
-    // --- 1. DASH CON DAÑO ---
+
     IEnumerator Attack_Dash()
     {
         isBusy = true;
@@ -218,12 +217,12 @@ public class BossController : MonoBehaviour
             t = t * t * (3f - 2f * t);
             transform.position = Vector3.Lerp(startPos, targetPos, t);
 
-            // LOGICA DAÑO DASH
+            
             if (!hitPlayer)
             {
                 float dist = Vector2.Distance(new Vector2(transform.position.x, transform.position.z),
                                               new Vector2(player.position.x, player.position.z));
-                // Radio aumentado a 3 para asegurar golpe
+                
                 if (dist < 3.0f)
                 {
                     DamagePlayer(20);
@@ -252,7 +251,7 @@ public class BossController : MonoBehaviour
         isBusy = false;
     }
 
-    // --- 2. JUMP SMASH (ARREGLADO EL TAMAÑO DE HITBOX) ---
+    
     IEnumerator Attack_JumpSmash()
     {
         isBusy = true;
@@ -260,18 +259,17 @@ public class BossController : MonoBehaviour
         GameObject tele = Instantiate(aoeTelegraphPrefab, groundPos, Quaternion.Euler(90, 0, 0));
         TelegraphVisual tv = tele.GetComponent<TelegraphVisual>();
 
-        // 1. TELEGRAPH VISUAL (Tamaño Completo)
+        
         tv.ActivateTelegraph(jumpTelegraphTime / speedMult, new Vector3(jumpAttackSize, jumpAttackSize, 1));
 
         yield return new WaitForSeconds(jumpTelegraphTime / speedMult);
 
         if (anim != null) anim.SetTrigger("JumpAttack");
 
-        // Esperamos, ajustando por la velocidad actual de la animación
+        
         yield return new WaitForSeconds(jumpTimeUntilImpact / speedMult);
 
-        // 2. DAÑO FÍSICO (REDUCIDO para ser justo)
-        // Usamos (Tamaño / 2) * factor de reducción (0.85)
+       
         float damageRadius = (jumpAttackSize / 2f) * hitBoxReduction;
 
         Collider[] hits = Physics.OverlapSphere(groundPos, damageRadius);
@@ -287,7 +285,7 @@ public class BossController : MonoBehaviour
         isBusy = false;
     }
 
-    // --- 3. GROUND ZONES ---
+   
     IEnumerator Attack_GroundZones()
     {
         isBusy = true;
@@ -302,7 +300,7 @@ public class BossController : MonoBehaviour
             tv.ActivateTelegraph(groundZoneExplosionDelay, new Vector3(groundZoneSize, groundZoneSize, 1));
             StartCoroutine(ResolveZoneDamage(spawnPos, groundZoneExplosionDelay));
 
-            // Espera ajustada por velocidad
+           
             yield return new WaitForSeconds(castAnimCastPart / speedMult);
         }
         isBusy = false;
@@ -314,20 +312,20 @@ public class BossController : MonoBehaviour
         float dist = Vector2.Distance(new Vector2(player.position.x, player.position.z),
                                       new Vector2(pos.x, pos.z));
 
-        // Aquí también aplicamos una pequeña reducción para ser justos (0.9)
+        
         if (dist < (groundZoneSize / 2f) * 0.9f)
         {
             DamagePlayer(15);
         }
     }
 
-    // --- 4. PROJECTILES ---
+    
     IEnumerator Attack_FanProjectiles()
     {
         isBusy = true;
         if (anim != null) anim.SetTrigger("Shoot");
 
-        // Espera ajustada por velocidad
+       
         yield return new WaitForSeconds(shootAnimDuration / speedMult);
 
         if (IsPhase2)
