@@ -86,6 +86,6 @@ public class AbilityManager : MonoBehaviour
     {
         if (!Input.GetMouseButtonDown(0)) return;
 
-        ClickPoint = HoverPoint; // << ya no raycasteamos otra vez
+        ClickPoint = HoverPoint;
     }
 }

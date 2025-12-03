@@ -1,28 +1,48 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class TornadoFuego : MonoBehaviour
 {
+    [Header("Stats")]
     public int damage = 5;
     public float damageRate = 1f;
+    public float radius = 3f;
 
-    private float timer = 0f;
+    private Dictionary<EnemyHealthControler, float> enemyTimers = new Dictionary<EnemyHealthControler, float>();
 
-    private void OnTriggerStay(Collider other)
+    void Update()
     {
-        timer += Time.deltaTime;
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, radius);
 
-        if (timer >= damageRate)
+        HashSet<EnemyHealthControler> currentEnemies = new HashSet<EnemyHealthControler>();
+
+        foreach (var hit in hitColliders)
         {
-            var enemy = other.GetComponent<EnemyHealthControler>();
+            var enemy = hit.GetComponent<EnemyHealthControler>();
             if (enemy != null)
-                enemy.DealDamage(damage);
+            {
+                currentEnemies.Add(enemy);
 
-            timer = 0f;
+                if (!enemyTimers.ContainsKey(enemy))
+                    enemyTimers[enemy] = 0f;
+
+                enemyTimers[enemy] += Time.deltaTime;
+
+                if (enemyTimers[enemy] >= damageRate)
+                {
+                    enemy.DealDamage(damage);
+                    enemyTimers[enemy] = 0f;
+                }
+            }
         }
-    }
 
-    private void OnTriggerExit(Collider other)
-    {
-        timer = 0f;
+        List<EnemyHealthControler> toRemove = new List<EnemyHealthControler>();
+        foreach (var kvp in enemyTimers)
+        {
+            if (!currentEnemies.Contains(kvp.Key))
+                toRemove.Add(kvp.Key);
+        }
+        foreach (var e in toRemove)
+            enemyTimers.Remove(e);
     }
 }

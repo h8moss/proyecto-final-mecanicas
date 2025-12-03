@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class MecanicaAbsorber : MonoBehaviour
 {
-    public AbilityBase[] slots = new AbilityBase[3];   // << AHORA habilidades reales
+    public AbilityBase[] slots = new AbilityBase[3];
     public PlayerHealth vidaJugador;
 
     private Alma alma;
