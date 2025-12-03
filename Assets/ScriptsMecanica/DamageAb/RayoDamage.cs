@@ -24,6 +24,9 @@ public class RayoDamage : MonoBehaviour
             var enemy = hit.GetComponent<EnemyHealthControler>();
             if (enemy != null)
                 enemy.DealDamage(damage);
+
+            var boss = hit.GetComponent<BossHealthManager>();
+            if (boss != null) boss.TakeDamage(damage);
         }
 
         Destroy(gameObject);

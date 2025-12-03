@@ -2,13 +2,13 @@ using UnityEngine;
 
 public class BossProjectile : MonoBehaviour
 {
-    public float speed = 10f;
-    public int damage = 10;
+    public float speed = 15f;
+    public int damage = 15;
     public float lifeTime = 5f;
 
     void Start()
     {
-        Destroy(gameObject, lifeTime);
+        Destroy(gameObject, lifeTime); 
     }
 
     void Update()
@@ -20,14 +20,17 @@ public class BossProjectile : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            var damageable = other.GetComponent<IDamageable>();
-            if (damageable != null)
+           
+            PlayerHealth playerHP = other.GetComponent<PlayerHealth>();
+
+            if (playerHP != null)
             {
-                damageable.TakeDamage(damage);
+                playerHP.DealDamage(damage);
             }
-            Destroy(gameObject);
+
+            Destroy(gameObject); 
         }
-        else if (other.CompareTag("Wall")) // Asegúrate de tener muros con Tag "Wall"
+        else if (other.CompareTag("Wall")) 
         {
             Destroy(gameObject);
         }

@@ -72,23 +72,32 @@ public class MainPlayerNormalAttack : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.TryGetComponent<EnemyHealthControler>(out var eh))
+       
+        var dmg = 0;
+        switch (comboStep)
         {
-            var dmg = 0;
-            switch (comboStep)
-            {
-                case 1:
-                    dmg = combo1Damage;
-                    break;
-                case 2:
-                    dmg = combo2Damage;
-                    break;
-                case 3:
-                    dmg = combo3Damage;
-                    break;
-            }
-
-            eh.DealDamage(dmg);
+            case 1:
+                dmg = combo1Damage;
+                break;
+            case 2:
+                dmg = combo2Damage;
+                break;
+            case 3:
+                dmg = combo3Damage;
+                break;
+            default: 
+                dmg = combo1Damage;
+                break;
+        }
+       
+        if (other.TryGetComponent<EnemyHealthControler>(out var enemy))
+        {
+            enemy.DealDamage(dmg);
+        }
+       
+        else if (other.TryGetComponent<BossHealthManager>(out var boss))
+        {
+            boss.TakeDamage(dmg); 
         }
     }
 }

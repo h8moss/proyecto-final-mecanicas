@@ -16,7 +16,7 @@ public class BolaTierra : MonoBehaviour
     {
         if (hasImpacted) return;
 
-        if (other.CompareTag("Enemy"))
+        if (other.CompareTag("Enemy") || other.GetComponent<BossHealthManager>())
         {
             hasImpacted = true;
 
@@ -35,6 +35,12 @@ public class BolaTierra : MonoBehaviour
                         dir.y = 0;
                         hit.attachedRigidbody.AddForce(dir.normalized * knockbackForce, ForceMode.Impulse);
                     }
+                }
+                var boss = hit.GetComponent<BossHealthManager>();
+                if (boss != null)
+                {
+                    boss.TakeDamage(damage);
+                    
                 }
             }
 

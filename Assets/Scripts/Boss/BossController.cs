@@ -1,11 +1,10 @@
 using UnityEngine;
 using System.Collections;
 
-public class BossController : MonoBehaviour, IDamageable
+public class BossController : MonoBehaviour
 {
     [Header("Configuración General")]
     public Transform player;
-    public float maxHealth = 1000f;
     public float rotationSpeed = 5f;
     public Transform centerPoint;
 
@@ -15,9 +14,7 @@ public class BossController : MonoBehaviour, IDamageable
 
     [Header("TIEMPOS EXACTOS (TIMING)")]
     // DASH
-    [Tooltip("Tiempo de advertencia roja para el Dash")]
     public float dashTelegraphTime = 2.0f;
-    [Tooltip("Distancia que recorre el Dash")]
     public float dashDistance = 25f;
 
     // JUMP (SALTO)
@@ -35,21 +32,23 @@ public class BossController : MonoBehaviour, IDamageable
     public float jumpAttackSize = 22f;
     public float groundZoneSize = 6f;
 
+    [Header("AJUSTE DE HITBOX (NUEVO)")]
+    [Range(0.5f, 1f)]
+    public float hitBoxReduction = 0.85f; // El daño será el 85% del tamaño visual para ser justo
+
     [Header("Ataques & Prefabs")]
     public GameObject projectilePrefab;
     public GameObject aoeTelegraphPrefab;
     public GameObject dashTelegraphPrefab;
     public Transform firePoint;
 
-    [Header("Fases")]
-    public Color phase1Color = Color.white;
-    public Color phase2Color = Color.red;
+    [Header("Fases (Lógica)")]
     public float phase2SpeedMultiplier = 1.5f;
 
-    // Estados Internos
-    private float currentHealth;
-    private bool isPhase2 = false;
-    private bool isDead = false;
+    // Estados Públicos
+    public bool IsPhase2 { get; private set; } = false;
+    public bool IsDead { get; private set; } = false;
+
     private bool isBusy = false;
     private bool isSleeping = true;
     private float speedMult = 1f;
@@ -58,34 +57,37 @@ public class BossController : MonoBehaviour, IDamageable
     private float initialY;
     public float floorY = 0.15f;
 
-    [Header("REFERENCIAS MANUALES (ARRASTRAR AQUÍ)")]
+    [Header("REFERENCIAS")]
     public Animator anim;
-    public Renderer bossMesh; 
 
     private void Start()
     {
-        currentHealth = maxHealth;
         initialY = transform.position.y;
 
-        
-        if (bossMesh == null)
+        if (player == null)
         {
-            bossMesh = GetComponentInChildren<Renderer>();
-            Debug.LogWarning("BOSS: No asignaste el 'Boss Mesh' manual. Usando el primero que encontré.");
+            GameObject p = GameObject.FindGameObjectWithTag("Player");
+            if (p != null) player = p.transform;
         }
     }
 
     private void Update()
     {
-        if (isDead) return;
+        if (IsDead) return;
 
-        
+        // 1. SINCRONIZAR VELOCIDAD DE ANIMACIÓN
+        if (anim != null)
+        {
+            anim.speed = IsPhase2 ? phase2SpeedMultiplier : 1f;
+        }
+
+        // 2. CORRECCIÓN ALTURA
         if (Mathf.Abs(transform.position.y - initialY) > 0.1f)
         {
             transform.position = new Vector3(transform.position.x, initialY, transform.position.z);
         }
 
-        // Dormido
+        // 3. DORMIDO
         if (isSleeping)
         {
             if (player != null)
@@ -97,7 +99,7 @@ public class BossController : MonoBehaviour, IDamageable
             return;
         }
 
-        // Rotación
+        // 4. ROTACIÓN
         if (!isBusy && player != null)
         {
             Vector3 direction = (player.position - transform.position).normalized;
@@ -119,6 +121,31 @@ public class BossController : MonoBehaviour, IDamageable
         }
     }
 
+    // --- COMUNICACIÓN ---
+    public void NotifyDamageReceived() { if (isSleeping) StartCoroutine(WakeUpSequence()); }
+    public void StartPhase2() { StartCoroutine(EnterPhase2Routine()); }
+    public void DieSequence()
+    {
+        IsDead = true;
+        StopAllCoroutines();
+        if (anim != null)
+        {
+            anim.speed = 1f;
+            anim.SetTrigger("Die");
+        }
+    }
+
+    IEnumerator EnterPhase2Routine()
+    {
+        IsPhase2 = true;
+        isBusy = true;
+        if (anim != null) anim.SetBool("IsMoving", false);
+        if (anim != null) anim.SetTrigger("Roar");
+        yield return new WaitForSeconds(2.5f);
+        isBusy = false;
+    }
+
+    // --- LÓGICA COMBATE ---
     IEnumerator WakeUpSequence()
     {
         isSleeping = false;
@@ -133,9 +160,8 @@ public class BossController : MonoBehaviour, IDamageable
     {
         yield return new WaitForSeconds(1f);
 
-        while (!isDead)
+        while (!IsDead)
         {
-           
             float distToCenter = Vector3.Distance(new Vector3(transform.position.x, 0, transform.position.z),
                                                   new Vector3(centerPoint.position.x, 0, centerPoint.position.z));
 
@@ -144,10 +170,9 @@ public class BossController : MonoBehaviour, IDamageable
                 yield return StartCoroutine(ReturnToCenterTeleport());
             }
 
-            
             int attackIndex = Random.Range(0, 4);
-            float cooldown = isPhase2 ? 0.5f : 1.5f;
-            speedMult = isPhase2 ? phase2SpeedMultiplier : 1f;
+            float cooldown = IsPhase2 ? 0.5f : 1.5f;
+            speedMult = IsPhase2 ? phase2SpeedMultiplier : 1f;
 
             switch (attackIndex)
             {
@@ -161,8 +186,7 @@ public class BossController : MonoBehaviour, IDamageable
         }
     }
 
-  
-
+    // --- 1. DASH CON DAÑO ---
     IEnumerator Attack_Dash()
     {
         isBusy = true;
@@ -176,7 +200,6 @@ public class BossController : MonoBehaviour, IDamageable
         GameObject tele = Instantiate(dashTelegraphPrefab, telegraphPos, Quaternion.LookRotation(dashDir));
         tele.transform.Rotate(90, 0, 0);
         TelegraphVisual tv = tele.GetComponent<TelegraphVisual>();
-
         tv.ActivateTelegraph(dashTelegraphTime / speedMult, new Vector3(2, dashDistance, 1));
 
         yield return new WaitForSeconds(dashTelegraphTime / speedMult);
@@ -193,15 +216,19 @@ public class BossController : MonoBehaviour, IDamageable
             timer += Time.deltaTime;
             float t = timer / moveTime;
             t = t * t * (3f - 2f * t);
-
             transform.position = Vector3.Lerp(startPos, targetPos, t);
 
-            float dist = Vector2.Distance(new Vector2(transform.position.x, transform.position.z),
-                                          new Vector2(player.position.x, player.position.z));
-            if (!hitPlayer && dist < 2.5f)
+            // LOGICA DAÑO DASH
+            if (!hitPlayer)
             {
-                player.GetComponent<IDamageable>()?.TakeDamage(20);
-                hitPlayer = true;
+                float dist = Vector2.Distance(new Vector2(transform.position.x, transform.position.z),
+                                              new Vector2(player.position.x, player.position.z));
+                // Radio aumentado a 3 para asegurar golpe
+                if (dist < 3.0f)
+                {
+                    DamagePlayer(20);
+                    hitPlayer = true;
+                }
             }
             yield return null;
         }
@@ -215,7 +242,6 @@ public class BossController : MonoBehaviour, IDamageable
         isBusy = true;
         yield return new WaitForSeconds(0.5f);
         transform.position = new Vector3(centerPoint.position.x, initialY, centerPoint.position.z);
-
         if (player != null)
         {
             Vector3 lookDir = (player.position - transform.position).normalized;
@@ -226,6 +252,7 @@ public class BossController : MonoBehaviour, IDamageable
         isBusy = false;
     }
 
+    // --- 2. JUMP SMASH (ARREGLADO EL TAMAÑO DE HITBOX) ---
     IEnumerator Attack_JumpSmash()
     {
         isBusy = true;
@@ -233,36 +260,50 @@ public class BossController : MonoBehaviour, IDamageable
         GameObject tele = Instantiate(aoeTelegraphPrefab, groundPos, Quaternion.Euler(90, 0, 0));
         TelegraphVisual tv = tele.GetComponent<TelegraphVisual>();
 
+        // 1. TELEGRAPH VISUAL (Tamaño Completo)
         tv.ActivateTelegraph(jumpTelegraphTime / speedMult, new Vector3(jumpAttackSize, jumpAttackSize, 1));
+
         yield return new WaitForSeconds(jumpTelegraphTime / speedMult);
 
         if (anim != null) anim.SetTrigger("JumpAttack");
-        yield return new WaitForSeconds(jumpTimeUntilImpact);
 
-        Collider[] hits = Physics.OverlapSphere(groundPos, jumpAttackSize / 2f);
+        // Esperamos, ajustando por la velocidad actual de la animación
+        yield return new WaitForSeconds(jumpTimeUntilImpact / speedMult);
+
+        // 2. DAÑO FÍSICO (REDUCIDO para ser justo)
+        // Usamos (Tamaño / 2) * factor de reducción (0.85)
+        float damageRadius = (jumpAttackSize / 2f) * hitBoxReduction;
+
+        Collider[] hits = Physics.OverlapSphere(groundPos, damageRadius);
         foreach (var hit in hits)
         {
-            if (hit.CompareTag("Player")) hit.GetComponent<IDamageable>()?.TakeDamage(30);
+            if (hit.CompareTag("Player"))
+            {
+                PlayerHealth hp = hit.GetComponent<PlayerHealth>();
+                if (hp != null) hp.DealDamage(30);
+            }
         }
         yield return new WaitForSeconds(0.5f);
         isBusy = false;
     }
 
+    // --- 3. GROUND ZONES ---
     IEnumerator Attack_GroundZones()
     {
         isBusy = true;
-        int count = isPhase2 ? 5 : 3;
+        int count = IsPhase2 ? 5 : 3;
 
         for (int i = 0; i < count; i++)
         {
             if (anim != null) anim.SetTrigger("CastSpell");
-
             Vector3 spawnPos = new Vector3(player.position.x, floorY, player.position.z);
             GameObject tele = Instantiate(aoeTelegraphPrefab, spawnPos, Quaternion.Euler(90, 0, 0));
             TelegraphVisual tv = tele.GetComponent<TelegraphVisual>();
             tv.ActivateTelegraph(groundZoneExplosionDelay, new Vector3(groundZoneSize, groundZoneSize, 1));
             StartCoroutine(ResolveZoneDamage(spawnPos, groundZoneExplosionDelay));
-            yield return new WaitForSeconds(castAnimCastPart);
+
+            // Espera ajustada por velocidad
+            yield return new WaitForSeconds(castAnimCastPart / speedMult);
         }
         isBusy = false;
     }
@@ -272,24 +313,27 @@ public class BossController : MonoBehaviour, IDamageable
         yield return new WaitForSeconds(delay);
         float dist = Vector2.Distance(new Vector2(player.position.x, player.position.z),
                                       new Vector2(pos.x, pos.z));
-        if (dist < (groundZoneSize / 2f))
+
+        // Aquí también aplicamos una pequeña reducción para ser justos (0.9)
+        if (dist < (groundZoneSize / 2f) * 0.9f)
         {
-            player.GetComponent<IDamageable>()?.TakeDamage(15);
+            DamagePlayer(15);
         }
     }
 
+    // --- 4. PROJECTILES ---
     IEnumerator Attack_FanProjectiles()
     {
         isBusy = true;
         if (anim != null) anim.SetTrigger("Shoot");
+
+        // Espera ajustada por velocidad
         yield return new WaitForSeconds(shootAnimDuration / speedMult);
 
-        if (isPhase2)
+        if (IsPhase2)
         {
-            
             int projectiles = 24;
             float angleStep = 360f / projectiles;
-
             for (int i = 0; i < projectiles; i++)
             {
                 float currentAngle = i * angleStep;
@@ -300,67 +344,27 @@ public class BossController : MonoBehaviour, IDamageable
         }
         else
         {
-           
             int projectiles = 5;
             float angleStep = 15f;
             float startAngle = -((projectiles - 1) * angleStep) / 2;
-
             for (int i = 0; i < projectiles; i++)
             {
                 Quaternion rot = transform.rotation * Quaternion.Euler(0, startAngle + (angleStep * i), 0);
                 Instantiate(projectilePrefab, firePoint.position, rot);
             }
         }
-
         yield return new WaitForSeconds(0.2f);
         isBusy = false;
     }
 
-    public void TakeDamage(int damage)
+    void DamagePlayer(int amount)
     {
-       
-        Debug.Log("BOSS RECIBIÓ DAÑO: " + damage + ". Vida restante: " + (currentHealth - damage));
-
-        if (isSleeping) StartCoroutine(WakeUpSequence());
-        if (isDead) return;
-
-        currentHealth -= damage;
-
-        
-        if (!isPhase2 && currentHealth <= maxHealth * 0.5f)
+        if (player != null)
         {
-            StartCoroutine(EnterPhase2());
+            PlayerHealth hp = player.GetComponent<PlayerHealth>();
+            if (hp != null) hp.DealDamage(amount);
         }
-
-        if (currentHealth <= 0) Die();
     }
-
-    IEnumerator EnterPhase2()
-    {
-        Debug.Log("!!! CAMBIANDO A FASE 2 !!!");
-        isPhase2 = true;
-        isBusy = true;
-
-       
-        if (anim != null) anim.SetBool("IsMoving", false);
-
-        
-        if (anim != null) anim.SetTrigger("Roar");
-
-        
-        if (bossMesh != null) bossMesh.material.color = phase2Color;
-        else Debug.LogWarning("No hay Boss Mesh asignado, no puedo cambiar color.");
-
-        yield return new WaitForSeconds(2.5f);
-        isBusy = false;
-    }
-
-    void Die()
-    {
-        isDead = true;
-        StopAllCoroutines();
-        if (anim != null) anim.SetTrigger("Die");
-        Debug.Log("BOSS MUERTO");
-        Destroy(gameObject, 3f);
-    }
+  
+   
 }
