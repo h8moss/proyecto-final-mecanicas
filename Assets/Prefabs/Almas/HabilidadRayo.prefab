@@ -47,4 +47,4 @@ MonoBehaviour:
   rayoPrefab: {fileID: 6651562463839384360, guid: 9334256aa0736a342afc772458995f0e, type: 3}
   previewPrefab: {fileID: 5096262357828572348, guid: 45a7130ebb557a841a95a0b0c344dcdd, type: 3}
   maxRange: 6
-  player: {fileID: 0}
+  player: {fileID: 1890306799228467555, guid: 3d0e5e65310221f4da6a50007a7ab182, type: 3}

@@ -48,4 +48,4 @@ MonoBehaviour:
   tornadoPreviewPrefab: {fileID: 4730042999754954670, guid: 3fbc0c1f355861a4b8cd43f7c450c276, type: 3}
   maxRange: 6
   tornadoLifetime: 4
-  player: {fileID: 0}
+  player: {fileID: 1890306799228467555, guid: 3d0e5e65310221f4da6a50007a7ab182, type: 3}

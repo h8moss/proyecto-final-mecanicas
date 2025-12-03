@@ -46,4 +46,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   airePrefab: {fileID: 6806147480786334522, guid: 9d4c29be49ad986438154daffadb41ca, type: 3}
   previewPrefab: {fileID: 5177209537979619387, guid: e4a6360d790f9774db207ce7475b1040, type: 3}
-  player: {fileID: 0}
+  player: {fileID: 1890306799228467555, guid: 3d0e5e65310221f4da6a50007a7ab182, type: 3}

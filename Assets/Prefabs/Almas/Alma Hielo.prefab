@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 9077103142856916189}
   m_Layer: 0
   m_Name: Alma Hielo
-  m_TagString: Untagged
+  m_TagString: Alma
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -47,7 +47,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   habilidadPrefab: {fileID: 4543708782440787445, guid: 78e17465ddf359644a0d276332f212a6, type: 3}
-  tipoDeAlma: 0
 --- !u!135 &9077103142856916189
 SphereCollider:
   m_ObjectHideFlags: 0

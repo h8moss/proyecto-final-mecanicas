@@ -10,28 +10,36 @@ public class HabilidadFuego : AbilityBase
     [SerializeField] private float maxRange = 6f;
     [SerializeField] private float tornadoLifetime = 4f;
 
-    public Transform player;
-
     private GameObject previewInstance;
+    private Transform player;
+
+    private void Awake()
+    {
+        // Buscar al jugador automáticamente
+        GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+        if (playerObj != null)
+            player = playerObj.transform;
+    }
 
     public override void ShowPreview()
     {
-        if (previewInstance == null)
+        if (previewInstance == null && tornadoPreviewPrefab != null)
             previewInstance = Instantiate(tornadoPreviewPrefab);
 
-        // Usar SIEMPRE el punto del mouse (HoverPoint)
-        Vector3 clickPoint = AbilityManager.HoverPoint;
+        if (player == null) return;
 
-        Vector3 dir = clickPoint - player.position;
+        // Usar el punto del mouse (HoverPoint)
+        Vector3 hoverPoint = AbilityManager.HoverPoint;
+        Vector3 dir = hoverPoint - player.position;
         dir.y = 0;
 
-        float dist = dir.magnitude;
-        if (dist > maxRange)
+        if (dir.magnitude > maxRange)
             dir = dir.normalized * maxRange;
 
         Vector3 previewPos = player.position + dir;
 
-        previewInstance.transform.position = previewPos;
+        if (previewInstance != null)
+            previewInstance.transform.position = previewPos;
     }
 
     public override void HidePreview()
@@ -42,14 +50,13 @@ public class HabilidadFuego : AbilityBase
 
     public override void Activate()
     {
-        // El clickPoint YA viene actualizado del mouse-click real
-        Vector3 clickPoint = AbilityManager.ClickPoint;
+        if (player == null) return;
 
+        Vector3 clickPoint = AbilityManager.ClickPoint;
         Vector3 dir = clickPoint - player.position;
         dir.y = 0;
 
-        float dist = dir.magnitude;
-        if (dist > maxRange)
+        if (dir.magnitude > maxRange)
             dir = dir.normalized * maxRange;
 
         Vector3 spawnPos = player.position + dir;

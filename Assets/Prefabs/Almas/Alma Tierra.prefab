@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5163381350704456781}
   m_Layer: 0
   m_Name: Alma Tierra
-  m_TagString: Untagged
+  m_TagString: Alma
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -47,7 +47,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   habilidadPrefab: {fileID: 3908451171851461412, guid: c8615081a2a9d4345a82c49fe0f1ae14, type: 3}
-  tipoDeAlma: 0
 --- !u!135 &5163381350704456781
 SphereCollider:
   m_ObjectHideFlags: 0

@@ -9,12 +9,17 @@ public class HabilidadTierra : AbilityBase
     [SerializeField] private float maxRange = 8f;
     [SerializeField] private float velocidad = 10f;
 
-    public Transform player;
-
+    private Transform player;
     private LineRenderer previewLine;
 
     private void Awake()
     {
+        // Tomamos al jugador automáticamente
+        GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+        if (playerObj != null)
+            player = playerObj.transform;
+
+        // Crear LineRenderer para preview
         GameObject lrObj = new GameObject("PreviewLine");
         previewLine = lrObj.AddComponent<LineRenderer>();
         previewLine.startWidth = 0.1f;
@@ -28,6 +33,8 @@ public class HabilidadTierra : AbilityBase
 
     public override void ShowPreview()
     {
+        if (player == null) return;
+
         Vector3 hoverPoint = AbilityManager.HoverPoint;
         Vector3 dir = hoverPoint - player.position;
         dir.y = 0;
@@ -50,6 +57,8 @@ public class HabilidadTierra : AbilityBase
 
     public override void Activate()
     {
+        if (player == null) return;
+
         Vector3 hoverPoint = AbilityManager.HoverPoint;
         Vector3 dir = hoverPoint - player.position;
         dir.y = 0;

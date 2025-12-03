@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: -5362372563164814631}
   m_Layer: 0
   m_Name: Alma fuego
-  m_TagString: Untagged
+  m_TagString: Alma
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -47,7 +47,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   habilidadPrefab: {fileID: 6703778253897220923, guid: e71336da3435cf049acc2ba0099cd2e9, type: 3}
-  tipoDeAlma: 0
 --- !u!135 &-5362372563164814631
 SphereCollider:
   m_ObjectHideFlags: 0

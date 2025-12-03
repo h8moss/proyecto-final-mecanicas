@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8907270262443095527}
   m_Layer: 0
   m_Name: Alma Rayo
-  m_TagString: Untagged
+  m_TagString: Alma
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -47,7 +47,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   habilidadPrefab: {fileID: 3433922444309925520, guid: 87b5f2f449829944e862c130ca4a070b, type: 3}
-  tipoDeAlma: 0
 --- !u!135 &8907270262443095527
 SphereCollider:
   m_ObjectHideFlags: 0

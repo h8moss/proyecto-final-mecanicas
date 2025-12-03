@@ -13,22 +13,28 @@ public class HabilidadRayo : AbilityBase
     private GameObject previewInstance;
 
     private int currentShieldHP;
-    public PlayerHealth playerHealth;
     private Transform player;
+    private PlayerHealth playerHealth;
 
     public bool IsActive => shieldInstance != null && shieldInstance.activeSelf;
 
-    private void Start()
+    private void Awake()
     {
-        player = playerHealth.transform;
+        // Buscamos al jugador automáticamente
+        GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+        if (playerObj != null)
+        {
+            player = playerObj.transform;
+            playerHealth = playerObj.GetComponent<PlayerHealth>();
+        }
     }
 
     public override void ShowPreview()
     {
-        if (previewInstance == null)
-        {
+        if (previewInstance == null && previewPrefab != null)
             previewInstance = Instantiate(previewPrefab);
-        }
+
+        if (player == null) return;
 
         previewInstance.transform.position = player.position;
         previewInstance.transform.rotation = player.rotation;
@@ -42,11 +48,15 @@ public class HabilidadRayo : AbilityBase
 
     public override void Activate()
     {
-        if (shieldInstance == null)
+        if (player == null) return;
+
+        if (shieldInstance == null && shieldPrefab != null)
             shieldInstance = Instantiate(shieldPrefab);
 
         currentShieldHP = maxShieldHP;
-        playerHealth.escudo = currentShieldHP;
+
+        if (playerHealth != null)
+            playerHealth.escudo = currentShieldHP;
 
         shieldInstance.transform.position = player.position;
         shieldInstance.transform.rotation = player.rotation;
@@ -70,8 +80,6 @@ public class HabilidadRayo : AbilityBase
         currentShieldHP = playerHealth.escudo;
 
         if (currentShieldHP <= 0)
-        {
             Deactivate();
-        }
     }
 }

@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44898d096eae2fa4da05b152a28b5e1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bolaPrefab: {fileID: 3058921619387484915, guid: e6eef16e5c7379044be811c1d02037e9, type: 3}
+  bolaPrefab: {fileID: 6473317217334067172, guid: c2475fa6d36f9a140af978686b0f6c2b, type: 3}
   maxRange: 8
   velocidad: 10
-  player: {fileID: 0}
+  player: {fileID: 1890306799228467555, guid: 3d0e5e65310221f4da6a50007a7ab182, type: 3}

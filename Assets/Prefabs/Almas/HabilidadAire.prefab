@@ -47,4 +47,4 @@ MonoBehaviour:
   shieldPrefab: {fileID: 5323567199959889981, guid: c76127e7eea5b55408b391a92feb4184, type: 3}
   maxShieldHP: 50
   previewPrefab: {fileID: 3224306588092208955, guid: 1a1585f9dfe82d745a7e24dfc271bdfe, type: 3}
-  playerHealth: {fileID: 0}
+  playerHealth: {fileID: 2121446278909072254, guid: 3d0e5e65310221f4da6a50007a7ab182, type: 3}

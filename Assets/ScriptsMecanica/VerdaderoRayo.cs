@@ -9,16 +9,23 @@ public class VerdaderoRayo : AbilityBase
     [Header("Stats")]
     [SerializeField] private float maxRange = 6f;
 
-    public Transform player;
-
     private GameObject previewInstance;
+    private Transform player;
+
+    private void Awake()
+    {
+        // Tomamos al jugador automáticamente
+        GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+        if (playerObj != null)
+            player = playerObj.transform;
+    }
 
     public override void ShowPreview()
     {
         if (previewInstance == null && previewPrefab != null)
-        {
             previewInstance = Instantiate(previewPrefab);
-        }
+
+        if (player == null) return;
 
         Vector3 hoverPoint = AbilityManager.HoverPoint;
         Vector3 dir = hoverPoint - player.position;
@@ -36,13 +43,13 @@ public class VerdaderoRayo : AbilityBase
     public override void HidePreview()
     {
         if (previewInstance != null)
-        {
             Destroy(previewInstance);
-        }
     }
 
     public override void Activate()
     {
+        if (player == null) return;
+
         Vector3 clickPoint = AbilityManager.ClickPoint;
         Vector3 dir = clickPoint - player.position;
         dir.y = 0;
