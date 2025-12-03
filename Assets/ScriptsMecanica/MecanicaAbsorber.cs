@@ -2,102 +2,59 @@ using UnityEngine;
 
 public class MecanicaAbsorber : MonoBehaviour
 {
-    public string[] slots = new string[3];
-    public int slotDispo = 4;
-    public bool almaExists = false;
-    public HealthManager vidaJugador;
+    public AbilityBase[] slots = new AbilityBase[3];   // << AHORA habilidades reales
+    public PlayerHealth vidaJugador;
 
     private Alma alma;
-    
-    public void Update()
+    private bool almaExists = false;
+
+    void Update()
     {
-        if(Input.GetButtonDown("Fire1"))
-        {
-            for(int i = 0; i < 3; i++)
-            {
-                Debug.Log(slots[i]);
-            }  
-        }
         if (almaExists)
         {
-            if (Input.GetKeyDown("e"))
+            if (Input.GetKeyDown(KeyCode.F)) // absorber habilidad
             {
-                HabilidadLlenar(alma.tipoDeAlma);
+                AbsorberHabilidad(alma);
                 alma.gameObject.SetActive(false);
+                almaExists = false;
             }
-            else if (Input.GetKeyDown("h"))
+            else if (Input.GetKeyDown(KeyCode.C)) // curar
             {
-                vidaJugador.Curar(Random.Range(15, 26));
-                Debug.Log("curando");
+                vidaJugador.Heal(Random.Range(15, 26));
                 alma.gameObject.SetActive(false);
+                almaExists = false;
             }
         }
     }
+
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.CompareTag("Alma"))
+        if (other.CompareTag("Alma"))
         {
             alma = other.GetComponent<Alma>();
             almaExists = true;
         }
     }
 
-    private void HabilidadLlenar(int tipo)
+    private void AbsorberHabilidad(Alma alma)
     {
-        switch (tipo)
-            {
-            case 1:
-                slotDispo = SlotDisponible();
-                if(slotDispo != 4)
-                {
-                    slots[slotDispo] = "rayo";
-                    almaExists = false;
-                }
-                break;
-            case 2:
-                slotDispo = SlotDisponible();
-                if (slotDispo != 4)
-                {
-                    slots[slotDispo] = "fuego";
-                    almaExists = false;
-                }
-                break;
-            case 3:
-                slotDispo = SlotDisponible();
-                if (slotDispo != 4)
-                {
-                    slots[slotDispo] = "tierra";
-                    almaExists = false;
-                }
-                break;
-            case 4:
-                slotDispo = SlotDisponible();
-                if (slotDispo != 4)
-                {
-                    slots[slotDispo] = "aire";
-                    almaExists = false;
-                }
-                break;
-            case 5:
-                slotDispo = SlotDisponible();
-                if (slotDispo != 4)
-                {
-                    slots[slotDispo] = "hielo";
-                    almaExists = false;
-                }
-                break;
-        }
+        int slot = SlotDisponible();
+        if (slot == -1) return;
+
+        // Instanciamos la habilidad que viene en el alma
+        AbilityBase habilidad = Instantiate(alma.habilidadPrefab, transform);
+
+        slots[slot] = habilidad;
+        Debug.Log("Absorbiste habilidad: " + habilidad.name);
     }
 
     private int SlotDisponible()
     {
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < slots.Length; i++)
         {
-            if (slots[i] == "")
-            {
+            if (slots[i] == null)
                 return i;
-            }
         }
-        return 4;
+        return -1;
     }
 }

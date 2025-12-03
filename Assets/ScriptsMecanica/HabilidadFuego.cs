@@ -1,19 +1,34 @@
 using UnityEngine;
 
-public class HabilidadFuego : MonoBehaviour
+public class HabilidadFuego : AbilityBase
 {
-    public int dano = 15;
+    [SerializeField] private GameObject tornadoPrefab;
+    [SerializeField] private float maxRange = 6f;
+    [SerializeField] private float tornadoLifetime = 4f;
 
-    public void OnTriggerEnter(Collider other)
+    private Transform player;
+
+    private void Awake()
     {
-        if (other.gameObject.CompareTag("Enemy"))
-        {
-            
-        }
+        player = GameObject.FindWithTag("Player").transform;
     }
 
-    void Update()
+    public override void Activate()
     {
-        
+        Vector3 clickPoint = AbilityManager.ClickPoint;
+
+        Vector3 dir = clickPoint - player.position;
+        dir.y = 0f;
+
+        float dist = dir.magnitude;
+
+        if (dist > maxRange)
+            dir = dir.normalized * maxRange;
+
+        Vector3 spawnPos = player.position + dir;
+
+        GameObject tornado = Instantiate(tornadoPrefab, spawnPos, Quaternion.identity);
+
+        Destroy(tornado, tornadoLifetime);
     }
 }
