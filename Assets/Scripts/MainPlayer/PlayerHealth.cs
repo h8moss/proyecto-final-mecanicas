@@ -4,22 +4,32 @@ public class PlayerHealth : MonoBehaviour
 {
     public int escudo;
     [SerializeField] private int maxHealth;
-    private int health;
+    [SerializeField] private int health;
 
     public int MaxHealth { get => maxHealth; }
     public int Health { get => health; }
 
     public bool IsDead { get => health <= 0; }
 
-    public delegate void OnDeath();
-    public OnDeath onDeath;
-    public delegate void OnHurt();
-    public OnDeath onHurt;
+    public delegate void OnHealthEvent();
+    public OnHealthEvent onDeath;
+    public OnHealthEvent onHurt;
+    public OnHealthEvent onHealed;
+    public OnHealthEvent onHealthChanged;
+
 
     
     void Start()
     {
         health = maxHealth;
+
+        onHurt += NotifyHealthChanged;
+        onHealed += NotifyHealthChanged;
+    }
+
+    void NotifyHealthChanged()
+    {
+        onHealthChanged?.Invoke();
     }
 
     public void DealDamage(int damage)
@@ -29,6 +39,7 @@ public class PlayerHealth : MonoBehaviour
         if (escudo > 0)
         {
             damRes = escudo - damage;
+            escudo -= damage;
             if (damRes > 0)
                 return;
             else
@@ -58,5 +69,6 @@ public class PlayerHealth : MonoBehaviour
         {
             health = maxHealth;
         }
+        onHealed?.Invoke();
     }
 }
