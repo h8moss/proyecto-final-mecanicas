@@ -54,7 +54,8 @@ public class HabilidadFuego : AbilityBase
 
         Vector3 spawnPos = player.position + dir;
 
-        GameObject tornado = Instantiate(tornadoPrefab, spawnPos, Quaternion.identity);
+        Quaternion spawnRotation = Quaternion.Euler(-90f, 0f, 0f);
+        GameObject tornado = Instantiate(tornadoPrefab, spawnPos, spawnRotation);
 
         Destroy(tornado, tornadoLifetime);
     }

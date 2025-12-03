@@ -696,9 +696,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8806bd523a97d04aa92dd62c4102734, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shieldPrefab: {fileID: 4364745688967909121, guid: 642dee6b8d623c04fae642fef037d121, type: 3}
+  shieldPrefab: {fileID: 5323567199959889981, guid: c76127e7eea5b55408b391a92feb4184, type: 3}
   maxShieldHP: 50
-  previewPrefab: {fileID: 2376927104745429326, guid: dfa61a1785a3b4a44a37e0094d229591, type: 3}
+  previewPrefab: {fileID: 3224306588092208955, guid: 1a1585f9dfe82d745a7e24dfc271bdfe, type: 3}
   playerHealth: {fileID: 1808648990}
 --- !u!4 &1015620853
 Transform:
@@ -1477,8 +1477,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4fb0949e7b6c334d8369d2b8cbb29b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tornadoPrefab: {fileID: 1938545735186942428, guid: 18fc4f7bc5cb97a4694560bc97800951, type: 3}
-  tornadoPreviewPrefab: {fileID: 1457969284539303640, guid: 5b676c78819b82c4d882e0a4e3b6a240, type: 3}
+  tornadoPrefab: {fileID: 3627671228065533943, guid: fcb9524e64693624fa71280249a81103, type: 3}
+  tornadoPreviewPrefab: {fileID: 4730042999754954670, guid: 3fbc0c1f355861a4b8cd43f7c450c276, type: 3}
   maxRange: 6
   tornadoLifetime: 4
   player: {fileID: 1808648995}
