@@ -3,32 +3,79 @@ using UnityEngine;
 public class AbilityManager : MonoBehaviour
 {
     public static Vector3 ClickPoint;
+    public static Vector3 HoverPoint;
+    public MecanicaAbsorber absorbido;
 
     [SerializeField] private AbilityBase[] abilities;
-    private int selectedIndex = 0;
 
     private Camera cam;
 
+    private bool isPreviewing = false;
+    private int previewIndex = -1;
+
     void Start()
     {
+        absorbido = GetComponentInParent<MecanicaAbsorber>();
         cam = Camera.main;
     }
 
     void Update()
     {
+        abilities = absorbido.slots;
+
+        DetectMouseHover();
         DetectMouseClick();
 
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (!isPreviewing)
         {
-            abilities[0].Activate();
+            if (Input.GetKeyDown(KeyCode.Q)) StartPreview(0);
+            if (Input.GetKeyDown(KeyCode.E)) StartPreview(1);
+            if (Input.GetKeyDown(KeyCode.R)) StartPreview(2);
         }
-        if (Input.GetKeyDown(KeyCode.E))
+        else
         {
-            abilities[1].Activate();
+            UpdatePreviewPosition();
+
+            if (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetMouseButtonDown(0))
+            {
+                CastAbility();
+            }
         }
-        if (Input.GetKeyDown(KeyCode.R))
+    }
+
+    void StartPreview(int index)
+    {
+        if (abilities[index] == null) return;
+
+        isPreviewing = true;
+        previewIndex = index;
+
+        abilities[index].ShowPreview();
+    }
+
+    void UpdatePreviewPosition()
+    {
+        abilities[previewIndex].ShowPreview();
+    }
+
+    void CastAbility()
+    {
+        abilities[previewIndex].HidePreview();
+        abilities[previewIndex].Activate();
+
+        absorbido.slots[previewIndex] = null;
+
+        isPreviewing = false;
+        previewIndex = -1;
+    }
+
+    void DetectMouseHover()
+    {
+        Ray ray = cam.ScreenPointToRay(Input.mousePosition);
+
+        if (Physics.Raycast(ray, out RaycastHit hit, 200f))
         {
-            abilities[2].Activate();
+            HoverPoint = hit.point;
         }
     }
 
@@ -36,11 +83,6 @@ public class AbilityManager : MonoBehaviour
     {
         if (!Input.GetMouseButtonDown(0)) return;
 
-        Ray ray = cam.ScreenPointToRay(Input.mousePosition);
-
-        if (Physics.Raycast(ray, out RaycastHit hit, 200f, LayerMask.GetMask("Ground")))
-        {
-            ClickPoint = hit.point;
-        }
+        ClickPoint = HoverPoint; // << ya no raycasteamos otra vez
     }
 }

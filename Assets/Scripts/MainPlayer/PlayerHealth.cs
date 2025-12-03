@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour
 {
-    public HabilidadRayo escudo;
+    public int escudo;
     [SerializeField] private int maxHealth;
     private int health;
 
@@ -24,12 +24,23 @@ public class PlayerHealth : MonoBehaviour
 
     public void DealDamage(int damage)
     {
+        int damRes;
         if (IsDead) return;
-        if (escudo != null && escudo.IsActive)
+        if (escudo > 0)
         {
-            bool absorbed = escudo.AbsorbDamage(damage);
-            if (absorbed)
+            damRes = escudo - damage;
+            if (damRes > 0)
                 return;
+            else
+            {
+                health -= damRes;
+                onHurt?.Invoke();
+                if (health <= 0)
+                {
+                    onDeath?.Invoke();
+                }
+                return;
+            }
         }
         health -= damage;
         onHurt?.Invoke();

@@ -12,13 +12,13 @@ public class MecanicaAbsorber : MonoBehaviour
     {
         if (almaExists)
         {
-            if (Input.GetKeyDown(KeyCode.F)) // absorber habilidad
+            if (Input.GetKeyDown(KeyCode.F))
             {
                 AbsorberHabilidad(alma);
                 alma.gameObject.SetActive(false);
                 almaExists = false;
             }
-            else if (Input.GetKeyDown(KeyCode.C)) // curar
+            else if (Input.GetKeyDown(KeyCode.C))
             {
                 vidaJugador.Heal(Random.Range(15, 26));
                 alma.gameObject.SetActive(false);
@@ -27,7 +27,7 @@ public class MecanicaAbsorber : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
         if (other.CompareTag("Alma"))
         {
@@ -41,11 +41,9 @@ public class MecanicaAbsorber : MonoBehaviour
         int slot = SlotDisponible();
         if (slot == -1) return;
 
-        // Instanciamos la habilidad que viene en el alma
         AbilityBase habilidad = Instantiate(alma.habilidadPrefab, transform);
 
         slots[slot] = habilidad;
-        Debug.Log("Absorbiste habilidad: " + habilidad.name);
     }
 
     private int SlotDisponible()

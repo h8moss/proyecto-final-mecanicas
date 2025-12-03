@@ -3,44 +3,75 @@ using UnityEngine;
 public class HabilidadRayo : AbilityBase
 {
     [Header("Shield Settings")]
-    public GameObject shieldVisual;
+    public GameObject shieldPrefab;
     public int maxShieldHP = 50;
 
-    private int currentShieldHP;
-    private PlayerHealth playerHealth;
+    [Header("Preview Settings")]
+    public GameObject previewPrefab;
 
-    public bool IsActive => shieldVisual.activeSelf;
+    private GameObject shieldInstance;
+    private GameObject previewInstance;
+
+    private int currentShieldHP;
+    public PlayerHealth playerHealth;
+    private Transform player;
+
+    public bool IsActive => shieldInstance != null && shieldInstance.activeSelf;
 
     private void Start()
     {
-        playerHealth = GetComponentInParent<PlayerHealth>();
+        player = playerHealth.transform;
+    }
 
-        playerHealth.escudo = this;
+    public override void ShowPreview()
+    {
+        if (previewInstance == null)
+        {
+            previewInstance = Instantiate(previewPrefab);
+        }
 
-        shieldVisual.SetActive(false);
+        previewInstance.transform.position = player.position;
+        previewInstance.transform.rotation = player.rotation;
+    }
+
+    public override void HidePreview()
+    {
+        if (previewInstance != null)
+            Destroy(previewInstance);
     }
 
     public override void Activate()
     {
+        if (shieldInstance == null)
+            shieldInstance = Instantiate(shieldPrefab);
+
         currentShieldHP = maxShieldHP;
-        shieldVisual.SetActive(true);
+        playerHealth.escudo = currentShieldHP;
+
+        shieldInstance.transform.position = player.position;
+        shieldInstance.transform.rotation = player.rotation;
+        shieldInstance.transform.SetParent(player);
+
+        shieldInstance.SetActive(true);
+
+        HidePreview();
     }
 
     public void Deactivate()
     {
-        shieldVisual.SetActive(false);
+        if (shieldInstance != null)
+            shieldInstance.SetActive(false);
     }
 
-    public bool AbsorbDamage(int amount)
+    private void Update()
     {
-        if (!IsActive)
-            return false;
+        if (playerHealth == null) return;
 
-        currentShieldHP -= amount;
+        currentShieldHP = playerHealth.escudo;
 
         if (currentShieldHP <= 0)
+        {
             Deactivate();
-
-        return true;
+        }
     }
 }
