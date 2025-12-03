@@ -60,7 +60,11 @@ public class FireEnemyMovement : MonoBehaviour
 
     void Update()
     {
-        if (health.IsDead || !initialized) return;
+        if (health.IsDead || !initialized)
+        {
+            agent.destination = transform.position;
+            return;
+        }
         // Look at player
         Vector3 lookDirection = player.position - transform.position;
         lookDirection.y = 0;

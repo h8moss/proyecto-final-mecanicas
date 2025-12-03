@@ -290,6 +290,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   instantDisable: []
   disabledTimeout: 4
+  colliderToDisable: {fileID: 4040790920367614625}
 --- !u!114 &3264745562218739404
 MonoBehaviour:
   m_ObjectHideFlags: 0

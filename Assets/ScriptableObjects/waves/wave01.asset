@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   breakTime: 5
   randomTimeBetweenSpawns: {x: 1, y: 6}
-  fireEnemyCount: 3
-  iceEnemyCount: 2
+  fireEnemyCount: 2
+  iceEnemyCount: 1
   waterEnemyCount: 0
   earthEnemyCount: 0
   lightningEnemyCount: 0

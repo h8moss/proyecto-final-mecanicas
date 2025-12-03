@@ -95,13 +95,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetObject: {fileID: 706223066936953884}
   lightningObject: {fileID: 8035538500468289429}
-  trackingTime: 3
-  stillTime: 2
+  trackingTime: 5
+  stillTime: 0.2
   attackDuration: 0.1
   ground:
     serializedVersion: 2
     m_Bits: 256
-  smoothSpeed: 7
+  smoothSpeed: 6.18
   targetHeight: 0.1
 --- !u!114 &379203510993520221
 MonoBehaviour:

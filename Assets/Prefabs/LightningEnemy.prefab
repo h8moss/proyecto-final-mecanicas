@@ -206,6 +206,7 @@ MonoBehaviour:
   instantDisable:
   - {fileID: 4549808576845377823}
   disabledTimeout: 4
+  colliderToDisable: {fileID: 9005675535598919443}
 --- !u!114 &3766708158676598625
 MonoBehaviour:
   m_ObjectHideFlags: 0

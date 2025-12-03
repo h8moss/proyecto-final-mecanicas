@@ -5143,6 +5143,7 @@ MonoBehaviour:
   - {fileID: 8190404345191245706}
   - {fileID: 7579910646728990632}
   disabledTimeout: 4
+  colliderToDisable: {fileID: 1884557701971461872}
 --- !u!1 &7579910646728990632
 GameObject:
   m_ObjectHideFlags: 0
