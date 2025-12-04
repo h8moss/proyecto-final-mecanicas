@@ -1,9 +1,11 @@
+using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class BossHealthManager : MonoBehaviour, IDamageable
 {
-    [Header("Configuración de Salud")]
+    [Header("Configuraciï¿½n de Salud")]
     public float maxHealth = 100f;
     [SerializeField] private float currentHealth;
 
@@ -14,16 +16,16 @@ public class BossHealthManager : MonoBehaviour, IDamageable
     public Renderer bossMesh;
     public Color phase2Color = Color.red;
 
-    [Header("Feedback Daño (Damage Flash)")]
+    [Header("Feedback Daï¿½o (Damage Flash)")]
     public Color flashColor = new Color(1f, 0.5f, 0.5f); // Un rojo/blanco brillante
-    public float flashDuration = 0.1f; // Muy rápido (0.1s)
+    public float flashDuration = 0.1f; // Muy rï¿½pido (0.1s)
 
     // Referencias internas
     private BossController controller;
     private bool isPhase2Started = false;
 
     // Variables para controlar el color
-    private Color currentBaseColor; // Memoriza de qué color debería estar el boss (Blanco o Rojo)
+    private Color currentBaseColor; // Memoriza de quï¿½ color deberï¿½a estar el boss (Blanco o Rojo)
     private Coroutine flashRoutine; // Para controlar que no se trabe el parpadeo
 
     private void Start()
@@ -90,7 +92,7 @@ public class BossHealthManager : MonoBehaviour, IDamageable
             if (bossMesh.material.HasProperty("_BaseColor"))
                 bossMesh.material.SetColor("_BaseColor", flashColor); // URP
 
-            // Opcional: Activar Emisión para que brille en la oscuridad
+            // Opcional: Activar Emisiï¿½n para que brille en la oscuridad
             bossMesh.material.EnableKeyword("_EMISSION");
             bossMesh.material.SetColor("_EmissionColor", flashColor);
         }
@@ -105,7 +107,7 @@ public class BossHealthManager : MonoBehaviour, IDamageable
             if (bossMesh.material.HasProperty("_BaseColor"))
                 bossMesh.material.SetColor("_BaseColor", currentBaseColor); // URP
 
-            // Apagar emisión
+            // Apagar emisiï¿½n
             bossMesh.material.SetColor("_EmissionColor", Color.black);
         }
     }
@@ -128,10 +130,18 @@ public class BossHealthManager : MonoBehaviour, IDamageable
         Debug.Log("BOSS MUERTO");
         if (healthBar != null) healthBar.gameObject.SetActive(false);
         if (controller != null) controller.DieSequence();
-        Destroy(gameObject, 4f);
+        // Destroy(gameObject, 4f);
+        StartCoroutine(EndGame());
+    }
+
+    IEnumerator EndGame()
+    {
+        yield return new WaitForSeconds(5);
+
+        SceneManager.LoadScene(4);
     }
 
     // --- DEBUG ---
-    [ContextMenu("DEBUG: Daño Test")]
+    [ContextMenu("DEBUG: Daï¿½o Test")]
     public void DebugDamage() { TakeDamage(10); }
 }
