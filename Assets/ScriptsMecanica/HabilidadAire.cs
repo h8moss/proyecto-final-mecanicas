@@ -15,6 +15,8 @@ public class HabilidadAire : AbilityBase
         GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
         if (playerObj != null)
             player = playerObj.transform;
+
+        abilityName = "Hielo";
     }
 
     public override void ShowPreview()

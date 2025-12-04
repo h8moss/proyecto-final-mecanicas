@@ -19,6 +19,7 @@ public class HabilidadFuego : AbilityBase
         GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
         if (playerObj != null)
             player = playerObj.transform;
+        abilityName = "Fuego";
     }
 
     public override void ShowPreview()

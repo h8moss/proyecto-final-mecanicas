@@ -29,6 +29,8 @@ public class HabilidadTierra : AbilityBase
         previewLine.startColor = Color.yellow;
         previewLine.endColor = Color.yellow;
         previewLine.enabled = false;
+
+        abilityName = "Tierra";
     }
 
     public override void ShowPreview()

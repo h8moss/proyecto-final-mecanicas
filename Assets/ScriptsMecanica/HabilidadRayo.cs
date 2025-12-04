@@ -27,6 +27,7 @@ public class HabilidadRayo : AbilityBase
             player = playerObj.transform;
             playerHealth = playerObj.GetComponent<PlayerHealth>();
         }
+        abilityName = "Aire";
     }
 
     public override void ShowPreview()

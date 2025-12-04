@@ -18,6 +18,8 @@ public class VerdaderoRayo : AbilityBase
         GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
         if (playerObj != null)
             player = playerObj.transform;
+
+        abilityName = "Rayo";
     }
 
     public override void ShowPreview()
