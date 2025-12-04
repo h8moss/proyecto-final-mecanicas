@@ -5,8 +5,8 @@ public class TelegraphVisual : MonoBehaviour
 {
     [Header("Settings")]
     public float fillTime = 1.0f;
-    public Color safeColor = new Color(1, 1, 0, 0.3f); 
-    public Color dangerColor = new Color(1, 0, 0, 0.6f); 
+    public Color safeColor = new Color(1, 1, 0, 0.3f);
+    public Color dangerColor = new Color(1, 0, 0, 0.6f);
 
     private SpriteRenderer sr;
     private MeshRenderer mr;
@@ -19,7 +19,7 @@ public class TelegraphVisual : MonoBehaviour
 
     public void ActivateTelegraph(float duration, Vector3 size)
     {
-        transform.localScale = Vector3.zero; 
+        transform.localScale = Vector3.zero;
         gameObject.SetActive(true);
         StartCoroutine(AnimateTelegraph(duration, size));
     }
@@ -28,7 +28,6 @@ public class TelegraphVisual : MonoBehaviour
     {
         float timer = 0f;
 
-        
         SetColor(safeColor);
 
         while (timer < time)
@@ -36,20 +35,26 @@ public class TelegraphVisual : MonoBehaviour
             timer += Time.deltaTime;
             float progress = timer / time;
 
-            
             transform.localScale = Vector3.Lerp(Vector3.zero, targetScale, progress);
+
+            // Interpolamos el color
             SetColor(Color.Lerp(safeColor, dangerColor, progress));
 
             yield return null;
         }
 
-        
         gameObject.SetActive(false);
     }
 
+    // --- AQUÍ ESTABA EL PROBLEMA ---
     private void SetColor(Color c)
     {
         if (sr != null) sr.color = c;
-        if (mr != null) mr.material.color = c;
+
+        if (mr != null)
+        {
+            // CAMBIO: Usamos SetColor buscando "_BaseColor" que es el estándar de URP
+            mr.material.SetColor("_BaseColor", c);
+        }
     }
 }

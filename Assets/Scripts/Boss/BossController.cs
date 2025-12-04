@@ -32,6 +32,12 @@ public class BossController : MonoBehaviour
     public float jumpAttackSize = 22f;
     public float groundZoneSize = 6f;
 
+    [Header("EFECTOS VISUALES")]
+    public GameObject dashTrailFX;
+    public GameObject lightningVFX;
+    public int jumpLightningCount = 15; // Cuántos rayos caerán
+    public float jumpLightningDuration = 0.8f;
+
     [Header("AJUSTE DE HITBOX")]
     [Range(0.5f, 1f)]
     public float hitBoxReduction = 0.85f; 
@@ -196,6 +202,8 @@ public class BossController : MonoBehaviour
         Vector3 telegraphPos = transform.position + (dashDir * (dashDistance / 2f));
         telegraphPos.y = floorY;
 
+        if (dashTrailFX != null) dashTrailFX.SetActive(true);
+
         GameObject tele = Instantiate(dashTelegraphPrefab, telegraphPos, Quaternion.LookRotation(dashDir));
         tele.transform.Rotate(90, 0, 0);
         TelegraphVisual tv = tele.GetComponent<TelegraphVisual>();
@@ -231,7 +239,7 @@ public class BossController : MonoBehaviour
             }
             yield return null;
         }
-
+        if (dashTrailFX != null) dashTrailFX.SetActive(false);
         yield return new WaitForSeconds(1.0f);
         isBusy = false;
     }
@@ -268,8 +276,8 @@ public class BossController : MonoBehaviour
 
         
         yield return new WaitForSeconds(jumpTimeUntilImpact / speedMult);
+        SpawnVisualLightningArea(groundPos, jumpAttackSize);
 
-       
         float damageRadius = (jumpAttackSize / 2f) * hitBoxReduction;
 
         Collider[] hits = Physics.OverlapSphere(groundPos, damageRadius);
@@ -312,7 +320,7 @@ public class BossController : MonoBehaviour
         float dist = Vector2.Distance(new Vector2(player.position.x, player.position.z),
                                       new Vector2(pos.x, pos.z));
 
-        
+        if (lightningVFX != null) Instantiate(lightningVFX, pos, Quaternion.identity);
         if (dist < (groundZoneSize / 2f) * 0.9f)
         {
             DamagePlayer(15);
@@ -363,6 +371,36 @@ public class BossController : MonoBehaviour
             if (hp != null) hp.DealDamage(amount);
         }
     }
-  
-   
+    // --- FUNCIÓN AUXILIAR PARA SPAWNEAR RAYOS VISUALES ---
+    void SpawnVisualLightningArea(Vector3 centerPos, float size)
+    {
+        if (lightningVFX == null) return;
+
+        float radius = size / 2f;
+
+        for (int i = 0; i < jumpLightningCount; i++)
+        {
+            // 1. Obtener un punto aleatorio dentro de un círculo 2D
+            Vector2 randomPoint2D = Random.insideUnitCircle * radius;
+
+            // 2. Convertirlo a posición 3D en el suelo
+            Vector3 spawnPos = centerPos + new Vector3(randomPoint2D.x, 0f, randomPoint2D.y);
+
+            // Opcional: Variar un poquito la rotación o escala para que no se vean idénticos
+            Quaternion randomRot = Quaternion.Euler(0, Random.Range(0, 360), 0);
+
+            // 3. Instanciar el rayo
+            GameObject bolt = Instantiate(lightningVFX, spawnPos, randomRot);
+
+            // 4. IMPORTANTE: Asegurar que sea solo visual
+            // Si tu prefab de rayo tiene un collider, lo desactivamos aquí:
+            Collider col = bolt.GetComponent<Collider>();
+            if (col != null) col.enabled = false;
+
+            // 5. Destruirlo rápido
+            Destroy(bolt, jumpLightningDuration);
+        }
+    }
+
+
 }
