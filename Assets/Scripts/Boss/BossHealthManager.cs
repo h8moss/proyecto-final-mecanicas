@@ -11,6 +11,11 @@ public class BossHealthManager : MonoBehaviour, IDamageable
 
     [Header("Referencias UI")]
     public Slider healthBar;
+    [Header("MUSICA DE BATALLA")]
+    public AudioSource musicSource; // Arrastra el Audio Source aquí
+    public AudioClip phase1Loop;    // Canción normal
+    public AudioClip phase2Loop;
+    private float defaultVolume;
 
     [Header("Fases Visuales")]
     public Renderer bossMesh;
@@ -23,7 +28,8 @@ public class BossHealthManager : MonoBehaviour, IDamageable
     // Referencias internas
     private BossController controller;
     private bool isPhase2Started = false;
-
+    [Tooltip("Tiempo en segundos que tarda en cambiar la canción")]
+    public float musicFadeTime = 2.0f;
     // Variables para controlar el color
     private Color currentBaseColor; // Memoriza de qu� color deber�a estar el boss (Blanco o Rojo)
     private Coroutine flashRoutine; // Para controlar que no se trabe el parpadeo
@@ -44,6 +50,14 @@ public class BossHealthManager : MonoBehaviour, IDamageable
 
         // Guardamos el color original (probablemente blanco) como base
         if (bossMesh != null) currentBaseColor = bossMesh.material.color;
+
+        if (musicSource != null && phase1Loop != null)
+        {
+            defaultVolume = musicSource.volume; // Guardamos el volumen que pusiste en el Inspector
+            musicSource.clip = phase1Loop;
+            musicSource.loop = true;
+            musicSource.Play();
+        }
     }
 
     public void TakeDamage(int damage)
@@ -121,10 +135,54 @@ public class BossHealthManager : MonoBehaviour, IDamageable
 
         // Aplicamos el color inmediatamente
         if (bossMesh != null) bossMesh.material.color = currentBaseColor;
+        if (musicSource != null && phase2Loop != null)
+        {
+            StartCoroutine(FadeToNextSong(phase2Loop));
+        }
+
+       
 
         if (controller != null) controller.StartPhase2();
     }
+    IEnumerator FadeToNextSong(AudioClip nextClip)
+    {
+        // 1. BAJAR VOLUMEN (Fade Out)
+        float startVol = musicSource.volume;
+        float speed = 1f / (musicFadeTime / 2f); // Dividimos el tiempo entre bajar y subir
 
+        for (float t = 0; t < 1; t += Time.deltaTime * speed)
+        {
+            musicSource.volume = Mathf.Lerp(startVol, 0, t);
+            yield return null;
+        }
+
+        musicSource.volume = 0;
+        musicSource.Stop();
+
+        // 2. CAMBIAR DISCO
+        musicSource.clip = nextClip;
+        musicSource.Play();
+
+        // 3. SUBIR VOLUMEN (Fade In)
+        for (float t = 0; t < 1; t += Time.deltaTime * speed)
+        {
+            musicSource.volume = Mathf.Lerp(0, defaultVolume, t);
+            yield return null;
+        }
+        musicSource.volume = defaultVolume;
+    }
+
+    // --- FADE OUT AL MORIR ---
+    IEnumerator FadeOutMusic()
+    {
+        float startVol = musicSource.volume;
+        for (float t = 0; t < 1; t += Time.deltaTime * 0.5f) // 2 segundos para apagarse
+        {
+            musicSource.volume = Mathf.Lerp(startVol, 0, t);
+            yield return null;
+        }
+        musicSource.Stop();
+    }
     void Die()
     {
         Debug.Log("BOSS MUERTO");
