@@ -121,6 +121,7 @@ GameObject:
   - component: {fileID: 703371627785442010}
   - component: {fileID: 6087434860680792327}
   - component: {fileID: 5076326840870658120}
+  - component: {fileID: 6293342892459790443}
   m_Layer: 7
   m_Name: WaterProjectile
   m_TagString: Untagged
@@ -169,7 +170,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b44adb96aa760fca9ba7a1b702aad32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 6
+  speed: 4
   collisionLayers:
   - serializedVersion: 2
     m_Bits: 256
@@ -220,6 +221,29 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!136 &6293342892459790443
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6728374964137776992}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 2.68
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.45, z: 0}
 --- !u!1001 &6405301175947690792
 PrefabInstance:
   m_ObjectHideFlags: 0
