@@ -1,5 +1,4 @@
 using System.Collections;
-using UnityEditor.Rendering.Universal;
 using UnityEngine;
 
 [RequireComponent(typeof(EnemyHealthControler))]
@@ -15,6 +14,6 @@ public class KillEnemyTimeout : MonoBehaviour
     {
         yield return new WaitForSeconds(timeout);
         var health = GetComponent<EnemyHealthControler>();
-        health.DealDamage(health.Health+1);
+        health.DealDamage(health.Health + 1);
     }
 }
